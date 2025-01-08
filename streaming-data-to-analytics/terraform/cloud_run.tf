@@ -1,5 +1,5 @@
 # Ingest_API Cloud Run service
-resource "google_cloud_run_service" "ingest-api" {
+resource "google_cloud_run_service" "ingest_api" {
   name     = local.function_name
   location = var.region
 
@@ -37,7 +37,7 @@ resource "google_cloud_run_service" "ingest-api" {
 
 
 # Message Handler Cloud Run service
-resource "google_cloud_run_v2_service" "message-handler" {
+resource "google_cloud_run_service" "message_handler" {
   name     = local.handler_name
   location = var.region
 
