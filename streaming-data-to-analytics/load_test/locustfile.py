@@ -3,6 +3,7 @@ from locust import HttpUser, task
 import uuid
 import time
 import random
+from random import randrange
 from faker import Faker
 import os
 import json
@@ -16,7 +17,10 @@ class IngestAPIUser(HttpUser):
     @task()
     def call_ingest_api(self):
         fake = Faker()
-        order = {
+        lot_value = randrange(10)
+        self.client.headers = {'Authorization': "Bearer " + gcp_token}
+        if (lot_value < 9):
+            order = {
                 "order_id": str(uuid.uuid1()),
                 "customer_email": fake.free_email(),
                 "phone_number": fake.phone_number(),
@@ -24,7 +28,14 @@ class IngestAPIUser(HttpUser):
                 "action": random.choice(actions),
                 "action_time": int(time.time())
             }
-        data = json.dumps(order).encode("utf-8")
-        self.client.headers = {'Authorization': "Bearer " + gcp_token}
-        self.client.post(f"/?entity=order-event", data=data)
+            data = json.dumps(order).encode("utf-8")
+            self.client.post(f"/?entity=order-event", data=data)
+        else:
+            error = {
+                "user_agent": fake.chrome(),
+                "action": random.choice(actions),
+                "action_time": int(time.time())
+            }
+            data = json.dumps(error).encode("utf-8")
+            self.client.post(f"/?unknown_event", data=data)
         
