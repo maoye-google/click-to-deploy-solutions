@@ -9,6 +9,18 @@ resource "google_project_iam_member" "publisher" {
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
 }
 
+resource "google_project_iam_member" "subscriber" {
+  project = var.project_id
+  role    = "roles/pubsub.subscriber"
+  member  = "serviceAccount:${google_service_account.ingest_api.email}"
+}
+
+resource "google_project_iam_member" "token_creator" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:${google_service_account.ingest_api.email}"
+}
+
 resource "google_project_iam_member" "pubsub_bqEditor" {
   project = var.project_id
   role    = "roles/bigquery.dataEditor"

@@ -3,6 +3,7 @@ resource "google_pubsub_topic" "ingest_api" {
   labels = local.resource_labels
 }
 
+# Forward Order Event to BQ via Pub/Sub
 resource "google_pubsub_subscription" "order_to_bq_sub" {
   name   = "order-event-to-bigquery"
   topic  = google_pubsub_topic.ingest_api.name
@@ -20,6 +21,7 @@ resource "google_pubsub_subscription" "order_to_bq_sub" {
   ]
 }
 
+# Forward Unknown Event to BQ via Pub/Sub
 resource "google_pubsub_subscription" "unknown_to_bq_sub" {
   name   = "unknown-to-bigquery"
   topic  = google_pubsub_topic.ingest_api.name
@@ -36,3 +38,31 @@ resource "google_pubsub_subscription" "unknown_to_bq_sub" {
     google_project_iam_member.pubsub_bqMetadata
   ]
 }
+
+# Forward Order Event to Message Handler
+resource "google_pubsub_subscription" "order_to_message_handler" {
+  name   = "order-event-to-message-handler"
+  topic  = google_pubsub_topic.ingest_api.name
+  labels = local.resource_labels
+  filter = "attributes.entity=\"order-event\""
+
+  push_config {
+    push_endpoint = google_cloud_run_service.message_handler.uri
+    oidc_token {
+      # service_account_name = google_service_account.ingest_api.email
+      service_account_email = google_service_account.ingest_api.email
+    }
+  }
+
+  # Message retention duration (e.g., 1 hour)
+  message_retention_duration = "3600s"
+  # Acknowledge deadline (e.g., 30 seconds)
+  ack_deadline_seconds = 30
+
+  depends_on = [
+    google_project_iam_member.pubsub_bqEditor,
+    google_project_iam_member.pubsub_bqMetadata
+  ]
+}
+
+# Forward Unknown Event to Message Handler

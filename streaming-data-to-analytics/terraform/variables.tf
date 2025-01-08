@@ -9,6 +9,8 @@ locals {
 
   ingest_api_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-ingest-api:${var.ingest_api_tag}"
   function_name        = "ingest-api"
+  message_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-message-handler:${var.message_handler_tag}"
+  handler_name         = "message-handler"
 }
 
 variable "project_id" {
@@ -23,6 +25,11 @@ variable "region" {
 
 variable "ingest_api_tag" {
   description = "Ingest API container tag"
+  default     = "latest"
+}
+
+variable "message_handler_tag" {
+  description = "Message Handler container tag"
   default     = "latest"
 }
 

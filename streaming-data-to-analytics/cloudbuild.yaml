@@ -1,17 +1,30 @@
 steps:
-# Container steps
+# Ingest API Container steps
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - 'build'
     - '-t'
-    - '${_IMAGE_NAME}'
+    - '${_INGEST_API_IMAGE_NAME}'
     - '.'
-  dir: code
+  dir: ingest_api
 - name: 'gcr.io/cloud-builders/docker'
   args: 
   - 'push'
-  - '${_IMAGE_NAME}'
-  dir: code
+  - '${_INGEST_API_IMAGE_NAME}'
+  dir: ingest_api
+# Message Handler Container steps
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'build'
+    - '-t'
+    - '${_MESSAGE_HANDLER_IMAGE_NAME}'
+    - '.'
+  dir: message_handler
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+  - 'push'
+  - '${_MESSAGE_HANDLER_IMAGE_NAME}'
+  dir: message_handler
   # Terraform steps
 - id: 'tf init'
   name: 'hashicorp/terraform:1.0.0'
@@ -30,16 +43,19 @@ steps:
   - -auto-approve
   dir: terraform
 substitutions:
-  _IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-ingest-api:${BUILD_ID}
+  _INGEST_API_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-ingest-api:${BUILD_ID}
+  _MESSAGE_HANDLER_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-message-handler:${BUILD_ID}
 options:
   dynamic_substitutions: true
   env:
     - TF_VAR_project_id=$PROJECT_ID
     - TF_VAR_ingest_api_tag=$BUILD_ID
+    - TF_VAR_message_handler_tag=$BUILD_ID
 tags:
   - terraform
   - streaming-data
   - plan-apply
 images:
-  - ${_IMAGE_NAME}    
+  - ${_INGEST_API_IMAGE_NAME}    
+  - ${_MESSAGE_HANDLER_IMAGE_NAME}  
 timeout: 3600s
