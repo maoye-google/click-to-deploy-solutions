@@ -1,15 +1,19 @@
 import http
 import os
 import logging
+
 from wsgiref import validate
 from flask import Flask, request
+
 from google.cloud import pubsub_v1
 
 
-PROJECT_ID = os.environ.get("PROJECT_ID")
+
+PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
 TOPIC_ID = os.environ.get("TOPIC_ID")
 
 app = Flask(__name__)
+
 
 @app.route("/", methods=['POST'])
 def publish():

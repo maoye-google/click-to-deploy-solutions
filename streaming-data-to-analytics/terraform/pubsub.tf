@@ -60,8 +60,9 @@ resource "google_pubsub_subscription" "order_to_message_handler" {
   ack_deadline_seconds = 30
 
   depends_on = [
-    google_project_iam_member.pubsub_bqEditor,
-    google_project_iam_member.pubsub_bqMetadata
+    google_project_iam_member.token_creator,
+    google_project_iam_member.cloudrun_invoker,
+    google_project_iam_member.cloud_monitoring_writer
   ]
 }
 

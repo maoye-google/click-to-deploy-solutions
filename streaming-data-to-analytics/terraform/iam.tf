@@ -24,9 +24,21 @@ resource "google_project_iam_member" "subscriber" {
   ]
 }
 
+resource "google_project_iam_member" "cloudrun_invoker" {
+  project = var.project_id
+  role    = "roles/run.invoker"
+  member  = "serviceAccount:${google_service_account.ingest_api.email}"
+}
+
 resource "google_project_iam_member" "token_creator" {
   project = var.project_id
   role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:${google_service_account.ingest_api.email}"
+}
+
+resource "google_project_iam_member" "cloud_monitoring_writer" {
+  project = var.project_id
+  role    = "roles/monitoring.editor"
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
 }
 
