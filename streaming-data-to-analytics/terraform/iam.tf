@@ -1,18 +1,27 @@
 resource "google_service_account" "ingest_api" {
   account_id   = local.function_name
   display_name = "Cloud Function Ingest API"
+  create_ignore_already_exists = true
 }
 
 resource "google_project_iam_member" "publisher" {
   project = var.project_id
   role    = "roles/pubsub.publisher"
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
+  
+  depends_on = [
+    google_service_account.ingest_api
+  ]
 }
 
 resource "google_project_iam_member" "subscriber" {
   project = var.project_id
   role    = "roles/pubsub.subscriber"
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
+
+  depends_on = [
+    google_service_account.ingest_api
+  ]
 }
 
 resource "google_project_iam_member" "token_creator" {

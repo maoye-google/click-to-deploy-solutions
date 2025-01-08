@@ -47,7 +47,7 @@ resource "google_pubsub_subscription" "order_to_message_handler" {
   filter = "attributes.entity=\"order-event\""
 
   push_config {
-    push_endpoint = google_cloud_run_service.message_handler.uri
+    push_endpoint = google_cloud_run_v2_service.message_handler.uri
     oidc_token {
       # service_account_name = google_service_account.ingest_api.email
       service_account_email = google_service_account.ingest_api.email
