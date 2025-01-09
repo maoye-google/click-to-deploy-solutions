@@ -18,6 +18,6 @@ export GCP_TOKEN=$(gcloud auth print-identity-token)
 export CLOUD_RUN_URL=https://ingest-api-378528575678.us-east1.run.app
 export WAIT_TIME_INTERVAL=1
 
-locust -f locustfile.py --headless -u 1 -r 1 \
-    --run-time 5m \
+locust -f locustfile.py --headless -u 10 -r 5 \
+    --run-time 20m \
     -H $CLOUD_RUN_URL
