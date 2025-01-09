@@ -61,3 +61,9 @@ resource "google_monitoring_alert_policy" "rate_exceed_policy" {
   ]
 
 }
+
+# Dashboard
+resource "google_monitoring_dashboard" "order_counter_dashboard_2" {
+  project = var.project_id
+  dashboard_json = file(var.dashboard_json_path)
+}

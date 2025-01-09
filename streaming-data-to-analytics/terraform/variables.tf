@@ -38,3 +38,9 @@ variable "resource_labels" {
   description = "Resource labels"
   default     = {}
 }
+
+variable "dashboard_json_path" {
+  description = "Native Dashboard for Received Order (Log Metrics)"
+  type        = string
+  default     = "../dashboard/order_count_dashboard_2.json"
+}

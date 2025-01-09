@@ -1,0 +1,61 @@
+{
+    "displayName": "Received Order (Log Metrics) 2",
+    "mosaicLayout": {
+      "columns": 48,
+      "tiles": [
+        {
+          "width": 30,
+          "height": 20,
+          "widget": {
+            "xyChart": {
+              "dataSets": [
+                {
+                  "timeSeriesQuery": {
+                    "timeSeriesFilter": {
+                      "filter": "resource.type = \"cloud_run_revision\" AND metric.type = \"logging.googleapis.com/user/order_count_2\"",
+                      "aggregation": {
+                        "alignmentPeriod": "60s",
+                        "perSeriesAligner": "ALIGN_SUM",
+                        "crossSeriesReducer": "REDUCE_SUM",
+                        "groupByFields": []
+                      }
+                    },
+                    "unitOverride": "",
+                    "outputFullDuration": false
+                  },
+                  "plotType": "LINE",
+                  "legendTemplate": "",
+                  "targetAxis": "Y1",
+                  "dimensions": [],
+                  "measures": [],
+                  "breakdowns": []
+                }
+              ],
+              "thresholds": [
+                {
+                  "label": "",
+                  "value": 100,
+                  "color": "COLOR_UNSPECIFIED",
+                  "direction": "DIRECTION_UNSPECIFIED",
+                  "targetAxis": "Y1"
+                }
+              ],
+              "xAxis": {
+                "label": "",
+                "scale": "LINEAR"
+              },
+              "chartOptions": {
+                "mode": "COLOR",
+                "showLegend": true,
+                "displayHorizontal": false
+              }
+            },
+            "title": "Cloud Run Revision - logging/user/order_count_2",
+            "id": ""
+          }
+        }
+      ]
+    },
+    "dashboardFilters": [],
+    "labels": {}
+  }
