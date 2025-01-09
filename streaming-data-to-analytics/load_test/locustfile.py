@@ -1,5 +1,5 @@
 # This code will publish messages to the Pub/sub topic to simulate events from other systems
-from locust import HttpUser, task
+from locust import HttpUser, task, between
 import uuid
 import time
 import random
@@ -11,9 +11,11 @@ import json
 
 actions = ["created", "cancelled", "updated", "delivered"]
 gcp_token = os.getenv("GCP_TOKEN")
-
+wait_time_interval = os.getenv("WAIT_TIME_INTERVAL")
 
 class IngestAPIUser(HttpUser):
+    wait_time = between(0.01,float(wait_time_interval))
+
     @task()
     def call_ingest_api(self):
         fake = Faker()

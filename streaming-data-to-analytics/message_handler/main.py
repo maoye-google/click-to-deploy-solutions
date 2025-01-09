@@ -56,7 +56,7 @@ def process_pubsub_message():
 
         # Log the message content
         msg = f"Received Order: order_id={order_id}, publish_time={publish_time}, customer_email={customer_email}, phone_number={phone_number}, action={action}"
-        print(msg)
+        # print(msg)
         logging.info(msg)
 
         return "OK", 200
