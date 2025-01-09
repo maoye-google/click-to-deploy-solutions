@@ -1,12 +1,14 @@
-resource "google_logging_metric" "order_count" {
+resource "google_logging_metric" "order_count2" {
   project = var.project_id
-  name   = "order_count"
-  filter = "severity>=Default"
+  name   = "order_count_2"
+  filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"message-handler\" AND textPayload=~\"INFO\\:root\\:Received\\sOrder.*\""
+
   description = "Count of Order Received Notification from Log"
 
   metric_descriptor {
     metric_kind = "DELTA"
     value_type  = "INT64"
+    unit        = "1"
   }
 }
 
@@ -20,7 +22,7 @@ resource "google_monitoring_notification_channel" "email_channel" {
 }
 
 resource "google_monitoring_alert_policy" "rate_exceed_policy" {
-  project      = "YOUR_PROJECT_ID" # Replace with your project ID
+  project = var.project_id
   display_name = "If request rate exceeds 100/m"
   combiner     = "OR"
   enabled      = true
@@ -28,7 +30,7 @@ resource "google_monitoring_alert_policy" "rate_exceed_policy" {
   conditions {
     display_name = "Rate Above Threshold"
     condition_threshold {
-      filter     = "resource.type = \"cloud_run_revision\" AND metric.type = \"logging.googleapis.com/user/order_count\""
+      filter     = "resource.type = \"cloud_run_revision\" AND metric.type = \"logging.googleapis.com/user/order_count_2\""
       duration   = "0s"
       comparison = "COMPARISON_GT"
       threshold_value = 100
@@ -52,5 +54,10 @@ resource "google_monitoring_alert_policy" "rate_exceed_policy" {
     content   = "The received order count has exceeded the threshold. Investigate the logs for details."
     mime_type = "text/markdown"
   }
+
+  depends_on=[
+    google_logging_metric.order_count2,
+    google_monitoring_notification_channel.email_channel
+  ]
 
 }
