@@ -67,7 +67,6 @@ If you want to run a load test, please follow the instructions below.
 
 1. Set GCP_TOKEN env var
 ```
-export GCP_TOKEN=$(gcloud auth print-identity-token)
 ```
 
 2. Create a python virtual env and activate it
@@ -80,6 +79,32 @@ pip install -r requirements.txt
 
 3. Run locust with your Cloud Run Service URL as target, for example:
 ```
+# 1 concurrent user, 1 second for ramp up, continue for 5 minutes
+
+sh load_low.sh
+```
+
+```
+# 10 concurrent users, ramp up 5 users per second at most, continue for 20 minutes
+
+sh load_middle.sh 
+```
+
+```
+# 100 concurrent users, ramp up 10 users per second at most, continue for 20 minutes
+
+sh load_high.sh
+```
+
+(Optional) You can also manually type the following command to launch performance test.
+```
+# Do not forget to renew the authentication token
+export GCP_TOKEN=$(gcloud auth print-identity-token)
+
+# Do not forget to get the latest Cloud Run service endpoint
+export SERVICE_URL=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')
+
+# Manually call python load test program
 locust -f locustfile.py --headless -u 100 -r 10 \
     --run-time 30m \
     -H https://<YOUR CLOUD RUN SERVICE URL>/
