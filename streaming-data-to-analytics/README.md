@@ -100,7 +100,7 @@ export SERVICE_URL=$(gcloud run services describe ingest-api --region=us-east1 -
 # Manually call python load test program
 locust -f locustfile.py --headless -u 100 -r 10 \
     --run-time 30m \
-    -H https://<YOUR CLOUD RUN SERVICE URL>/
+    -H $SERVICE_URL
 ```
 
 4. Query the events on [BigQuery](https://console.cloud.google.com/bigquery)
@@ -110,6 +110,11 @@ FROM `ecommerce_raw.order_event`
 WHERE DATE(publish_time) >= CURRENT_DATE()
 LIMIT 1000
 ```
+
+5. Open the native dashboard to check the throughput result
+The dashboard can be found under "CloudConsole / Cloud Monitoring / Dashboard"
+
+6. Open the Looker Studio dashboard if you have created one
 
 
 ## Cleaning up your environment
