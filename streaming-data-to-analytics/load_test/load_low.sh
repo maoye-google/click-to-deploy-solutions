@@ -15,7 +15,8 @@
 set -e
 
 export GCP_TOKEN=$(gcloud auth print-identity-token)
-export CLOUD_RUN_URL=https://ingest-api-378528575678.us-east1.run.app
+# export CLOUD_RUN_URL=https://ingest-api-378528575678.us-east1.run.app
+export CLOUD_RUN_URL=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')
 export WAIT_TIME_INTERVAL=1
 
 locust -f locustfile.py --headless -u 1 -r 1 \
