@@ -12,34 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Ignore .terraform directories
-**/.terraform/*
+set -e
 
-# .tfstate files
-*.tfstate
-*.tfstate.*
+# export SA_NAME="ingest-api@streaming-events-demo-3-447707.iam.gserviceaccount.com"
 
-# Crash log files
-crash.log
+export SA_NAME="external-cloud-run-user@streaming-events-demo-3-447707.iam.gserviceaccount.com"
+export GOOGLE_APPLICATION_CREDENTIALS="./external_client_key.json"
+export CLOUD_RUN_ENDPOINT="https://ingest-api-978187934406.us-east1.run.app"
+# export CLOUD_RUN_ENDPOINT=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')
 
-# Ignore override files as they are usually used to override resources locally and so
-# are not checked in
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
-
-# Others
-.DS_Store
-bicycle.jpg
-
-.idx
-.vscode
-
-# Service Account Key
-**/*_key.pem
-**/*_key.json
-
-*.pyc
-venv
-__pycache__
+python main.py

@@ -14,6 +14,9 @@ TOPIC_ID = os.environ.get("TOPIC_ID")
 
 app = Flask(__name__)
 
+@app.route("/", methods=['GET'])
+def hello():
+    return 'hello'
 
 @app.route("/", methods=['POST'])
 def publish():

@@ -18,6 +18,8 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
+# Initialize your own handling client logic
+# i.e. new_relic_client = New ....
 
 @app.route("/", methods=["POST"])
 def process_pubsub_message():
@@ -58,6 +60,11 @@ def process_pubsub_message():
         msg = f"Received Order: order_id={order_id}, publish_time={publish_time}, customer_email={customer_email}, phone_number={phone_number}, action={action}"
         # print(msg)
         logging.info(msg)
+
+
+        # Add your own handling logic here
+        # new_relic_client.record_user_metrics("<metrics_name>",<metrics_value>)
+
 
         return "OK", 200
 

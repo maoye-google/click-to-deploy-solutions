@@ -1,0 +1,13 @@
+Step-1: Create a new Service Account in Google Cloud Console, and Grant the necessary Permission
+
+Reference CLI command:
+gcloud projects add-iam-policy-binding <PROJECT_ID> \
+  --member="serviceAccount:<SERVICE_ACCOUNT_NAME>@<PROJECT_ID>.iam.gserviceaccount.com" \
+  --role="roles/run.invoker" \
+  --role="roles/iam.serviceAccountTokenCreator"
+
+
+Step-2: Generate JSON Key for the target Service Account via Google Cloud Console
+
+
+Step-3: Use the generated private key (JSON file) with the service account name in your client code
