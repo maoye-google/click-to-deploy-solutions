@@ -18,7 +18,7 @@ set -e
 
 export SA_NAME="external-cloud-run-user@streaming-events-demo-3-447707.iam.gserviceaccount.com"
 export GOOGLE_APPLICATION_CREDENTIALS="./external_client_key.json"
-export CLOUD_RUN_ENDPOINT="https://ingest-api-978187934406.us-east1.run.app"
-# export CLOUD_RUN_ENDPOINT=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')
+# export CLOUD_RUN_ENDPOINT="https://ingest-api-978187934406.us-east1.run.app"
+export CLOUD_RUN_ENDPOINT=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')
 
 python main.py

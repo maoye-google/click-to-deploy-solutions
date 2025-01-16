@@ -5,6 +5,7 @@ resource "google_bigquery_dataset" "rcs_metrics" {
   labels      = local.rcs_resource_labels
 }
 
+# ######################################################################
 
 resource "google_bigquery_table" "rcs_timeseris_request_count" {
   dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
@@ -85,7 +86,7 @@ EOF
 
 }
 
-
+# ######################################################################
 
 resource "google_bigquery_table" "rcs_timeseris_final_response_count" {
   dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
