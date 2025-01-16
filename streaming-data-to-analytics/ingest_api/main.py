@@ -76,7 +76,7 @@ def publish_rcs_metrics():
             message = extract_data_from_metrics(timeseries_data)
             print("Step7")
             publisher.publish(topic_path, 
-                              json.dumps(message), 
+                              json.dumps(message).encode("utf-8"), 
                               metric_type=metric_type,
                             #   conversation_type=data["conversation_type"],
                             #   carrier=data["carrier"],
