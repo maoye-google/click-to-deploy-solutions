@@ -190,7 +190,6 @@ def main():
     request_dict = MessageToDict(request_payload._pb)
     json_str = json.dumps(request_dict, indent=2)
     # print(json_str)
-    json_output = MessageToJson(request_payload._pb)
 
     response = post_to_cloud_run(
             cloud_run_url,

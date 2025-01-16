@@ -18,16 +18,17 @@ app = Flask(__name__)
 
 def extract_data_from_metrics(timeseries_data = None):
     # Extract data from fields
-    conversation_type = timeseries_data.metric.labels['conversation_type']
-    carrier = timeseries_data.metric.labels['carrier']
-    sip_method = timeseries_data.metric.labels['sip_method']
-    response_code = timeseries_data.metric.labels['response_code'] or ""
-    direction = timeseries_data.metric.labels['direction']
+    metric_labels = timeseries_data["metric"]["labels"]
+    conversation_type = metric_labels['conversation_type']
+    carrier = metric_labels['carrier']
+    sip_method = metric_labels['sip_method']
+    response_code = metric_labels['response_code'] or ""
+    direction = metric_labels['direction']
 
-    point_data = timeseries_data.points[0]
-    start_time = point_data.interval["startTime"]
-    end_time = point_data.interval["endTime"]
-    value = point_data.value
+    point_data = timeseries_data["points"][0]
+    start_time = point_data["interval"]["startTime"]
+    end_time = point_data["interval"]["endTime"]
+    value = point_data["value"]['int64Value']
 
     # compose and return simplied JSON object
     return {
@@ -51,25 +52,27 @@ def publish_rcs_metrics():
     try:
         data = request.get_data()
         # print(data)
-        # print("Step1")
+        print("Step1")
         request_payload = json.loads(data)
         timeseries_data_list = request_payload["timeSeries"]
-        # print("Step2")
+        print("Step2")
         if timeseries_data_list is None:
             return jsonify({"error": "Invalid TimeSeries data in request"}), 400
-        # print("Step3")
+        print("Step3")
 
         # Pub/sub publisher
         publisher = pubsub_v1.PublisherClient()
         topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
-        # print("Step4")
+        print("Step4")
 
         for timeseries_data in timeseries_data_list:
             # Publish the message to Pub/sub
-            metric_type = timeseries_data.metric.type
-
+            print(timeseries_data)
+            print("Step5")
+            metric_type = timeseries_data["metric"]["type"]
+            print("Step6")
             data = extract_data_from_metrics(timeseries_data)
-        
+            print("Step7")
             publisher.publish(topic_path, 
                               data, 
                               metric_type=metric_type,
