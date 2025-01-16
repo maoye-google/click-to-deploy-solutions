@@ -11,8 +11,11 @@ import uuid
 import random
 from random import randrange
 from faker import Faker
-from google.cloud.monitoring_v3.types import TimeSeries, TypedValue, Point, Interval
+from google.cloud import monitoring_v3
+from google.cloud.monitoring_v3.types import TimeSeries, TypedValue, Point, TimeInterval
 from google.protobuf.timestamp_pb2 import Timestamp
+import google.protobuf.json_format
+from google.protobuf.json_format import MessageToDict, MessageToJson
 
 def create_json_payload():
     fake = Faker()
@@ -25,38 +28,33 @@ def create_json_payload():
         "action": random.choice(actions),
         "action_time": int(time.time())
     }
-    data = order;
+    data = order
     return data
 
 
-def create_timeseries_point(ts_data=None):
+def create_timeseries_request_modal(ts_data=None):
     if (ts_data is None):
         print(f"Empty Result")
         return None
     
     time_series = TimeSeries()
-
+    
     # Required Fields: metric, resource, metric_kind, value_type
     time_series.metric.type = ts_data.get("metric", {}).get("type")
+    # print(time_series.metric.type)
+
     for label_key, label_value in ts_data.get("metric", {}).get("labels", {}).items():
         time_series.metric.labels[label_key] = label_value
 
-    time_series.resource.type = ts_data.get("resource", {}).get("type")
-    for label_key, label_value in ts_data.get("resource", {}).get("labels", {}).items():
-        time_series.resource.labels[label_key] = label_value
-
-    time_series.metric_kind = ts_data.get("metricKind")
-    time_series.value_type = ts_data.get("valueType")
-
-    # Points
     for point_data in ts_data.get("points", []):
         point = Point()
-        interval = Interval()
+        interval = TimeInterval()
 
+        # print("Step4.x Start")
         start_time = Timestamp()
         start_time.FromJsonString(point_data.get("interval", {}).get("startTime"))
         interval.start_time = start_time
-
+        
         end_time = Timestamp()
         end_time.FromJsonString(point_data.get("interval", {}).get("endTime"))
         interval.end_time = end_time
@@ -64,16 +62,18 @@ def create_timeseries_point(ts_data=None):
         point.interval = interval
 
         value = TypedValue()
-        value_type = time_series.value_type
-        if value_type == "INT64":
-            value.int64_value = int(point_data.get("value", {}).get("int64Value"))
-        elif value_type == "DOUBLE":
-            value.double_value = float(point_data.get("value", {}).get("doubleValue"))
-        elif value_type == "STRING":
-            value.string_value = point_data.get("value", {}).get("stringValue")
-        elif value_type == "BOOL":
-            value.bool_value = bool(point_data.get("value", {}).get("boolValue"))
-        # Add other types as needed (DISTRIBUTION, etc.)
+
+        value_tuple = point_data.get("value",{})
+        if "int64Value" in value_tuple:
+            # For RCS Metrics, the value will always be int64
+            value.int64_value = int(value_tuple["int64Value"])
+        elif "doubleValue" in value_tuple:
+            value.double_value = float(value_tuple["doubleValue"])
+        elif "stringValue" in value_tuple:
+            value.string_value = value_tuple["stringValue"]
+        elif "boolValue" in value_tuple:
+            value.bool_value = bool(value_tuple["boolValue"])
+
         point.value = value
         time_series.points.append(point)
 
@@ -86,9 +86,9 @@ def load_timeseries_payload_from_file(json_file_path):
 
         time_series_list = []
         for ts_data in data:
-            model = create_timeseries_point(ts_data)
-            if (model is not None):
-               time_series_list.append(model)
+            modal = create_timeseries_request_modal(ts_data)
+            if (modal is not None):
+               time_series_list.append(modal)
 
         return time_series_list
     
@@ -135,6 +135,7 @@ def post_to_cloud_run(service_url, relative_path,service_account_key_path, data,
 
     # 7. Make the POST request to the Cloud Run service.
     try:
+        # print(data)
         response = requests.post(full_url, headers=headers, json=data)  # Send data as JSON
         response.raise_for_status()
 
@@ -182,11 +183,20 @@ def main():
 
     relative_path = "/rcs-metrics"
     data = load_timeseries_payload_from_file("./sample_payload.json")
+
+
+    request_payload = monitoring_v3.CreateTimeSeriesRequest(
+        name='PROJECT_ID', time_series=data)
+    request_dict = MessageToDict(request_payload._pb)
+    json_str = json.dumps(request_dict, indent=2)
+    # print(json_str)
+    json_output = MessageToJson(request_payload._pb)
+
     response = post_to_cloud_run(
             cloud_run_url,
             relative_path,
             service_account_path,
-            data=data
+            data=request_dict
         )
 
 
