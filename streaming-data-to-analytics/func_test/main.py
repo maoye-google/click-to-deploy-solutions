@@ -11,7 +11,8 @@ import uuid
 import random
 from random import randrange
 from faker import Faker
-from google.cloud import monitoring_v3
+from google.cloud.monitoring_v3.types import TimeSeries, TypedValue, Point, Interval
+from google.protobuf.timestamp_pb2 import Timestamp
 
 def create_json_payload():
     fake = Faker()
@@ -27,6 +28,73 @@ def create_json_payload():
     data = order;
     return data
 
+
+def create_timeseries_point(ts_data=None):
+    if (ts_data is None):
+        print(f"Empty Result")
+        return None
+    
+    time_series = TimeSeries()
+
+    # Required Fields: metric, resource, metric_kind, value_type
+    time_series.metric.type = ts_data.get("metric", {}).get("type")
+    for label_key, label_value in ts_data.get("metric", {}).get("labels", {}).items():
+        time_series.metric.labels[label_key] = label_value
+
+    time_series.resource.type = ts_data.get("resource", {}).get("type")
+    for label_key, label_value in ts_data.get("resource", {}).get("labels", {}).items():
+        time_series.resource.labels[label_key] = label_value
+
+    time_series.metric_kind = ts_data.get("metricKind")
+    time_series.value_type = ts_data.get("valueType")
+
+    # Points
+    for point_data in ts_data.get("points", []):
+        point = Point()
+        interval = Interval()
+
+        start_time = Timestamp()
+        start_time.FromJsonString(point_data.get("interval", {}).get("startTime"))
+        interval.start_time = start_time
+
+        end_time = Timestamp()
+        end_time.FromJsonString(point_data.get("interval", {}).get("endTime"))
+        interval.end_time = end_time
+
+        point.interval = interval
+
+        value = TypedValue()
+        value_type = time_series.value_type
+        if value_type == "INT64":
+            value.int64_value = int(point_data.get("value", {}).get("int64Value"))
+        elif value_type == "DOUBLE":
+            value.double_value = float(point_data.get("value", {}).get("doubleValue"))
+        elif value_type == "STRING":
+            value.string_value = point_data.get("value", {}).get("stringValue")
+        elif value_type == "BOOL":
+            value.bool_value = bool(point_data.get("value", {}).get("boolValue"))
+        # Add other types as needed (DISTRIBUTION, etc.)
+        point.value = value
+        time_series.points.append(point)
+
+    return time_series
+
+def load_timeseries_payload_from_file(json_file_path):
+    try:
+        with open(json_file_path, 'r') as f:
+            data = json.load(f)
+
+        time_series_list = []
+        for ts_data in data:
+            model = create_timeseries_point(ts_data)
+            if (model is not None):
+               time_series_list.append(model)
+
+        return time_series_list
+    
+    except (FileNotFoundError, json.JSONDecodeError, KeyError, TypeError) as e:
+        print(f"Error loading TimeSeries from JSON: {e}")
+        return None
 
 def post_to_cloud_run(service_url, relative_path,service_account_key_path, data, audience=None):
     """
@@ -98,10 +166,22 @@ def main():
     if not service_account_path:
         print("Warning: Service account key path not set. Attempting to use ADC.")
 
+    # Option-1 : Use sample data for connection test
     # Data to send
-    data = create_json_payload()
+    # data = create_json_payload()
 
-    relative_path = "/?entity=order-event"
+    # relative_path = "/?entity=order-event"
+    # response = post_to_cloud_run(
+    #         cloud_run_url,
+    #         relative_path,
+    #         service_account_path,
+    #         data=data
+    #     )
+    
+    # Option-2 : Load data from JSON payload file
+
+    relative_path = "/?entity=rcs-metrics"
+    data = load_timeseries_payload_from_file("./sample_payload.json")
     response = post_to_cloud_run(
             cloud_run_url,
             relative_path,
