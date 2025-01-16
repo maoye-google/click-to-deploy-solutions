@@ -22,7 +22,9 @@ def extract_data_from_metrics(timeseries_data = None):
     conversation_type = metric_labels['conversation_type']
     carrier = metric_labels['carrier']
     sip_method = metric_labels['sip_method']
-    response_code = metric_labels['response_code'] or ""
+    response_code = ""
+    if "response_code" in metric_labels:
+        response_code = metric_labels['response_code']
     direction = metric_labels['direction']
 
     point_data = timeseries_data["points"][0]
