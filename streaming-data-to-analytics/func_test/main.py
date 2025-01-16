@@ -180,7 +180,7 @@ def main():
     
     # Option-2 : Load data from JSON payload file
 
-    relative_path = "/?entity=rcs-metrics"
+    relative_path = "/rcs-metrics"
     data = load_timeseries_payload_from_file("./sample_payload.json")
     response = post_to_cloud_run(
             cloud_run_url,
