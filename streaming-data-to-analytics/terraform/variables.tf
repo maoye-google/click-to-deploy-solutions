@@ -33,6 +33,11 @@ variable "message_handler_tag" {
   default     = "latest"
 }
 
+variable "rcs_metrics_message_handler_tag" {
+  description = "Android RCS Metrics Message Handler container tag"
+  default     = "latest"
+}
+
 variable "resource_labels" {
   type        = map(string)
   description = "Resource labels"
