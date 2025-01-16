@@ -83,7 +83,7 @@ def publish_rcs_metrics():
                             #   sip_method=data["sip_method"],
                             #   response_code=data["response_code"],
                             #   direction=data["direction"]
-                              )
+                            )
         # print("Step4")
         logging.info(f"Published {len(timeseries_data_list)} RCS metrics of Type ({metric_type})")
 
