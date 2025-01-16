@@ -83,6 +83,30 @@ def map_json_to_timeseries(json_data):
 def hello():
     return 'hello'
 
+def extract_data_from_metrics(timeseries_data = None):
+    # Extract data from fields
+    conversation_type = timeseries_data.metric.labels['conversation_type']
+    carrier = timeseries_data.metric.labels['carrier']
+    sip_method = timeseries_data.metric.labels['sip_method']
+    response_code = timeseries_data.metric.labels['response_code'] or ""
+    direction = timeseries_data.metric.labels['direction']
+    point_data = timeseries_data.points[0]
+    start_time = point_data.interval.start_time
+    end_time = point_data.interval.end_time
+    value = point_data.value
+
+    # compose and return simplied JSON object
+    return {
+        "conversation_type" : conversation_type,
+        "carrier" : carrier,
+        "sip_method" : sip_method,
+        "response_code" : response_code,
+        "direction":direction,
+        "start_time":start_time,
+        "end_time":end_time,
+        "value":value
+    }
+
 @app.route("/rcs-metrics", methods=['POST'])
 def publish():
     try:
@@ -109,22 +133,20 @@ def publish():
         for timeseries_data in timeseries_data_list:
             # Publish the message to Pub/sub
             metric_type = timeseries_data.metric.type
-            conversation_type = timeseries_data.metric.labels['conversation_type']
-            carrier = timeseries_data.metric.labels['carrier']
-            sip_method = timeseries_data.metric.labels['sip_method']
-            response_code = timeseries_data.metric.labels['response_code'] or ""
-            direction = timeseries_data.metric.labels['direction']
+            data = extract_data_from_metrics(timeseries_data)
         
             publisher.publish(topic_path, 
-                              timeseries_data, 
+                              data, 
                               metric_type=metric_type,
-                              conversation_type=conversation_type,
-                              carrier=carrier,
-                              sip_method=sip_method,
-                              response_code=response_code,
-                              direction=direction)
+                            #   conversation_type=data["conversation_type"],
+                            #   carrier=data["carrier"],
+                            #   sip_method=data["sip_method"],
+                            #   response_code=data["response_code"],
+                            #   direction=data["direction"]
+                              )
         
-        
+        logging.info(f"Published {len(timeseries_data_list)} RCS metrics of Type ({metric_type})")
+
     except Exception as ex:
         logging.error(ex)
         return 'error:{}'.format(ex), http.HTTPStatus.INTERNAL_SERVER_ERROR

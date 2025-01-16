@@ -39,6 +39,12 @@ variable "resource_labels" {
   default     = {}
 }
 
+variable "rcs_resource_labels" {
+  type        = map(string)
+  description = "Android RCS Metrics"
+  default     = {}
+}
+
 variable "dashboard_json_path" {
   description = "Native Dashboard for Received Order (Log Metrics)"
   type        = string
