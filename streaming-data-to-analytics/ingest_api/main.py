@@ -69,14 +69,14 @@ def publish_rcs_metrics():
 
         for timeseries_data in timeseries_data_list:
             # Publish the message to Pub/sub
-            print(timeseries_data)
+            # print(timeseries_data)
             print("Step5")
             metric_type = timeseries_data["metric"]["type"]
             print("Step6")
-            data = extract_data_from_metrics(timeseries_data)
+            message = extract_data_from_metrics(timeseries_data)
             print("Step7")
             publisher.publish(topic_path, 
-                              data, 
+                              json.dumps(message), 
                               metric_type=metric_type,
                             #   conversation_type=data["conversation_type"],
                             #   carrier=data["carrier"],
