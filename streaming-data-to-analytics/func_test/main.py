@@ -11,6 +11,7 @@ import uuid
 import random
 from random import randrange
 from faker import Faker
+from google.cloud import monitoring_v3
 
 def create_json_payload():
     fake = Faker()
