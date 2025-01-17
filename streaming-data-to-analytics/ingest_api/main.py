@@ -118,24 +118,25 @@ def publish_rcs_metrics():
             metric_type = timeseries_data.metric.type
             # print("Step6")
             message = json.dumps(MessageToDict(timeseries_data._pb))
-            # print("Step7")
+
             publisher.publish(topic_path, 
                               message.encode("utf-8"), 
                               metric_type=metric_type,
-                            #   conversation_type=data["conversation_type"],
-                            #   carrier=data["carrier"],
-                            #   sip_method=data["sip_method"],
-                            #   response_code=data["response_code"],
-                            #   direction=data["direction"]
-                            )
-            # print("Step8")
-            logging.info(f"Published RCS metrics of Type ({metric_type})")
+                              conversation_type=timeseries_data.metric.labels.get("conversation_type",""),
+                              carrier=timeseries_data.metric.labels.get("carrier",""),
+                              sip_method=timeseries_data.metric.labels.get("sip_method",""),
+                              response_code=timeseries_data.metric.labels.get("response_code",""),
+                              direction=timeseries_data.metric.labels.get("direction",""),
+                              value=str(timeseries_data.points[0].value.int64_value)
+                             )
+            # print("Step10")
+            print(f"Published RCS metrics of Type ({metric_type})")
             
-        logging.info(f"Totally published {len(time_series_list)} RCS metrics")
+        print(f"Totally published {len(time_series_list)} RCS metrics")
         return f"Success : Published {len(time_series_list)} RCS metrics"
 
-    except Exception as e:
-        logging.error(e)
+    except Exception as ex:
+        logging.error(ex)
         traceback.print_exc()
         return 'error:{}'.format(ex), http.HTTPStatus.INTERNAL_SERVER_ERROR
 
