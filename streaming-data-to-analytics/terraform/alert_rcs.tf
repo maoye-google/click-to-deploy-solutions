@@ -2,7 +2,7 @@ resource "google_logging_metric" "rcs_request_count" {
   project = var.project_id
   name   = "rcs_request_count"
   filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/request_count.*\""
-  value_extractor = "REGEXP_EXTRACT(textPayload, \"value\":\s\"([0-9.]+)\")"
+  value_extractor = "REGEXP_EXTRACT(textPayload, \"value\":\\s\"([0-9.]+)\")"
   
   description = "Count of RCS Request from Log"
   metric_descriptor {
@@ -16,7 +16,7 @@ resource "google_logging_metric" "rcs_response_200_count" {
   project = var.project_id
   name   = "rcs_response_200_count"
   filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/final_response_count.*\\\"response_code\\\":\\s\\\"200\\\"\""
-  value_extractor = "REGEXP_EXTRACT(textPayload, \"value\":\s\"([0-9.]+)\")"
+  value_extractor = "REGEXP_EXTRACT(textPayload, \"value\":\\s\"([0-9.]+)\")"
   
   description = "Count of RCS Final Response (200) from Log"
   metric_descriptor {
@@ -31,7 +31,7 @@ resource "google_logging_metric" "rcs_response_non_200_count" {
   project = var.project_id
   name   = "rcs_response_non_200_count"
   filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/final_response_count.*\\\"response_code\\\":\\s\\\"(!200)\\\"\""
-  value_extractor = "REGEXP_EXTRACT(textPayload, \"value\":\s\"([0-9.]+)\")"
+  value_extractor = "REGEXP_EXTRACT(textPayload, \"value\":\\s\"([0-9.]+)\")"
   
   description = "Count of RCS Final Response (None 200) from Log"
 
