@@ -2,7 +2,6 @@ import os
 import json
 import base64
 import logging
-import asyncio
 from flask import Flask, request
 from google.cloud import pubsub_v1, monitoring_v3
 from google.cloud.monitoring_v3.types import TimeSeries, TypedValue, Point, TimeInterval
@@ -107,35 +106,22 @@ def log_metrics_value(data_list = {}):
 
     # send_metrics_to_cloud_monitoring(data)
 
-    
-    # Asynchrounous Scope
+    # Option-2
+    # Send the Metrics to external Monitoring Tool like NewRelic or DataDog
 
-    async def async_log_metrics(data_list = {}):
-        tasks = []
-        
-        # Option-2
-        # Send the Metrics to external Monitoring Tool like NewRelic or DataDog
-    
-        # option_2_task = asyncio.create_task(send_metrics_to_newrelic(data))
-        # tasks.append(option_2_task)
-    
-        # Option-3
-        # Send the Metrics to BigQuery
-    
-        # option_3_task = asyncio.create_task(send_metrics_to_bq(data))
-        # tasks.append(option_3_task)
-    
-        # Option-4
-        # Log the Metrics into Standard Output (can be tracked Cloud Logging)
-    
-        option_4_task = asyncio.create_task(send_metrics_to_stdio(data_list))
-        tasks.append(option_4_task)
+    # option_2_task = asyncio.create_task(send_metrics_to_newrelic(data))
+    # tasks.append(option_2_task)
 
-        print('8')
-        
-        await asyncio.gather(*tasks)  # Wait for all tasks to complete
+    # Option-3
+    # Send the Metrics to BigQuery
 
-    asyncio.run(async_log_metrics(data_list))  # Run the async tasks within the sync handler
+    # option_3_task = asyncio.create_task(send_metrics_to_bq(data))
+    # tasks.append(option_3_task)
+
+    # Option-4
+    # Log the Metrics into Standard Output (can be tracked Cloud Logging)
+
+    send_metrics_to_stdio(data_list)
 
 
 
