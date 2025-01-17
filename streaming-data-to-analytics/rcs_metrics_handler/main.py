@@ -20,7 +20,7 @@ PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
 
 app = Flask(__name__)
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 def create_timeseries_request_modal(ts_data=None):
     if (ts_data is None):
@@ -166,7 +166,7 @@ def process_pubsub_message():
         # time_series_list = extract_time_series(t)
         data_list = []
 
-        print('4')
+        # print('4')
         
         # for time_series in time_series_list:
         #     print('5')
@@ -182,22 +182,22 @@ def process_pubsub_message():
         print('6')
             
         data = {
-            metric_type : metric_type,
-            conversation_type : conversation_type,
-            carrier : carrier,
-            sip_method : sip_method,
-            response_code : response_code,
-            direction : direction,
-            value : value
+            "metric_type" : metric_type,
+            "conversation_type" : conversation_type,
+            "carrier" : carrier,
+            "sip_method" : sip_method,
+            "response_code" : response_code,
+            "direction" : direction,
+            "value" : value
         }
 
         data_list.append(data)
 
-        print('7')
+        # print('7')
         
         log_metrics_value(data_list) 
 
-        logging.info(f"Finish process RCS Metrics")
+        logging.debug(f"Finish process RCS Metrics")
 
         return "OK", 200
 
