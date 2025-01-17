@@ -10,13 +10,11 @@ from google.cloud.monitoring_v3.types import TimeSeries, TypedValue, Point, Time
 from google.protobuf.json_format import MessageToDict, MessageToJson
 from google.protobuf.timestamp_pb2 import Timestamp
 import google.protobuf.json_format
-import traceback
 
 
 
 PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
 TOPIC_ID = os.environ.get("TOPIC_ID")
-logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -99,75 +97,25 @@ def publish_rcs_metrics():
         # print("-2")
         time_series_list = extract_time_series(t)
         # print("-3")
-        # placeholder = monitoring_v3.CreateTimeSeriesRequest(
-        #     name=request_data["name"],
-        #     time_series=time_series_list
-        # )
+        placeholder = monitoring_v3.CreateTimeSeriesRequest(
+            name=request_data["name"],
+            time_series=time_series_list
+        )
         # print("-4")
         # print(MessageToDict(placeholder._pb))
-
-        # Pub/sub publisher
-        publisher = pubsub_v1.PublisherClient()
-        topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
-        # print("Step4")
-
         for timeseries_data in time_series_list:
             # Publish the message to Pub/sub
             # print(timeseries_data)
-            # print("Step5")
+            print("-5")
             metric_type = timeseries_data.metric.type
-            # print("Step6")
-            message = json.dumps(MessageToDict(timeseries_data._pb))
-            # print("Step7")
-            publisher.publish(topic_path, 
-                              message.encode("utf-8"), 
-                              metric_type=metric_type,
-                            #   conversation_type=data["conversation_type"],
-                            #   carrier=data["carrier"],
-                            #   sip_method=data["sip_method"],
-                            #   response_code=data["response_code"],
-                            #   direction=data["direction"]
-                            )
-            # print("Step8")
-            logging.info(f"Published RCS metrics of Type ({metric_type})")
-            
-        logging.info(f"Totally published {len(time_series_list)} RCS metrics")
+            print("-6")
+            message = MessageToDict(timeseries_data._pb)
+            print(message)
+
+        return jsonify({'message': 'CreateTimeSeriesRequest received successfully'}), 200
 
     except Exception as e:
-        logging.error(e)
-        traceback.print_exc()
-
-    return 'success'
-
-@app.route("/", methods=['GET'], endpoint="hello")
-def hello():
-    return 'hello'
-
-@app.route("/", methods=['POST'])
-def publish():
-    try:
-        # Request validation
-        args = request.args
-        entity = args.get("entity")
-        if not entity:
-            entity = "unknown"
-
-        # Get the request data
-        data = request.get_data()
-        
-        # TO-DO - If you need to validate the request, add your code here
-
-        # Pub/sub publisher
-        publisher = pubsub_v1.PublisherClient()
-        topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
-        
-        # Publish the message to Pub/sub
-        publisher.publish(topic_path, data, entity=entity)
-    except Exception as ex:
-        logging.error(ex)
-        return 'error:{}'.format(ex), http.HTTPStatus.INTERNAL_SERVER_ERROR
-
-    return 'success'
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == "__main__":

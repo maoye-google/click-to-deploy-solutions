@@ -22,4 +22,4 @@ export GOOGLE_APPLICATION_CREDENTIALS="./external_client_key.json"
 # export CLOUD_RUN_ENDPOINT="http://127.0.0.1:8080"
 export CLOUD_RUN_ENDPOINT=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')
 
-python main.py
+python main_rcs.py
