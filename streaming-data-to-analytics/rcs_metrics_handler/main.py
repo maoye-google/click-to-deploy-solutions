@@ -92,9 +92,10 @@ def send_metrics_to_stdio(data_list = {}):
     for data in data_list:
         msg = f"RCS Metrics Logging : {json.dumps(data)}"
         print(msg)
-        logging.info(msg)
+        logging.debug(msg)
         
-    print('Fishin running send_metrics_to_stdio !')
+    # print('Fishin running send_metrics_to_stdio !')
+    # logging.debug(f"Fishin running send_metrics_to_stdio !")
 
 
 def log_metrics_value(data_list = {}):
@@ -144,13 +145,13 @@ def process_pubsub_message():
 
     try:
         # Decode the Pub/Sub message data (assuming it's base64 encoded)
-        print('1')
+        # print('1')
 
         message_data = base64.b64decode(
             pubsub_message["data"]
         ).decode() if "data" in pubsub_message else ""
 
-        print('2')
+        # print('2')
         
         # You can also extract other attributes like messageId and publishTime if needed
         publish_time = pubsub_message.get("publish_time")
@@ -158,24 +159,24 @@ def process_pubsub_message():
         # Ready to parse Message Body
         request_data = json.loads(message_data)
 
-        print('3')
+        # print('3')
         
         print(request_data)
         # t=request_data["timeSeries"]
         # time_series_list = extract_time_series(t)
         data_list = []
 
-        # print('4')
+        print('4')
         
         # for time_series in time_series_list:
         #     print('5')
         metric_type = request_data["metric"]["type"]
         metrics_labels = request_data["metric"]["labels"]
-        conversation_type=metrics_labels["conversation_type"]
-        carrier=metrics_labels["carrier"]
-        sip_method=metrics_labels["sip_method"]
-        response_code=metrics_labels["response_code"]
-        direction=metrics_labels["direction"]
+        conversation_type=metrics_labels.get("conversation_type","")
+        carrier=metrics_labels.get("carrier","")
+        sip_method=metrics_labels.get("sip_method","")
+        response_code=metrics_labels.get("response_code","")
+        direction=metrics_labels.get("direction","")
         value= request_data["points"][0]["value"]["int64Value"]
 
         print('6')
@@ -194,7 +195,9 @@ def process_pubsub_message():
 
         print('7')
         
-        log_metrics_value(data_list)  
+        log_metrics_value(data_list) 
+
+        logging.info(f"Finish process RCS Metrics")
 
         return "OK", 200
 
