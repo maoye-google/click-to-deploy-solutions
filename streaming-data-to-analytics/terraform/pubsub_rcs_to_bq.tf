@@ -18,7 +18,7 @@ resource "google_pubsub_subscription" "rcs_timeseris_request_count_to_bq_sub" {
 
 # Forward RCS Time Series Metrics (Final Response Count) to BQ via Pub/Sub
 resource "google_pubsub_subscription" "rcs_timeseris_final_response_count_to_bq_sub" {
-  name   = "rcs-timeseries-finl-response-count-to-bigquery"
+  name   = "rcs-timeseries-final-response-count-to-bigquery"
   topic  = google_pubsub_topic.ingest_api.name
   labels = local.resource_labels
   filter = "attributes.metric_type=\"custom.googleapis.com/rcs/sip/final_response_count\""

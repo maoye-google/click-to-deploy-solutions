@@ -1,14 +1,14 @@
 # ######################################################################
 
 # Forward RCS Time Series Metrics (Request Count) to Message Handler
-resource "google_pubsub_subscription" "rcs_timeseris_to_message_handler" {
-  name   = "rcs-timeserics-to-message-handler"
+resource "google_pubsub_subscription" "rcs_timeseris_to_rcs_metrics_handler" {
+  name   = "rcs-timeserics-to-rcs-metrics-handler"
   topic  = google_pubsub_topic.ingest_api.name
   labels = local.resource_labels
   filter = "attributes.metric_type=\"custom.googleapis.com/rcs/sip/request_count\" OR attributes.metric_type=\"custom.googleapis.com/rcs/sip/final_response_count\""
 
   push_config {
-    push_endpoint = google_cloud_run_v2_service.rcs_metrics_message_handler.uri
+    push_endpoint = google_cloud_run_v2_service.rcs_metrics_handler.uri
     oidc_token {
       service_account_email = google_service_account.ingest_api.email
     }
