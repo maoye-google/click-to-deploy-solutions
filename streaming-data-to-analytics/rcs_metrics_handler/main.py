@@ -175,35 +175,36 @@ def process_pubsub_message():
         print('3')
         
         print(request_data)
-        t=request_data["timeSeries"]
-        time_series_list = extract_time_series(t)
+        # t=request_data["timeSeries"]
+        # time_series_list = extract_time_series(t)
         data_list = []
 
-        print('4')
+        # print('4')
         
-        for time_series in time_series_list:
-            print('5')
-            metric_type = timeseries_data.metric.type
-            conversation_type=timeseries_data.metric.labels.get("conversation_type","")
-            carrier=timeseries_data.metric.labels.get("carrier","")
-            sip_method=timeseries_data.metric.labels.get("sip_method","")
-            response_code=timeseries_data.metric.labels.get("response_code","")
-            direction=timeseries_data.metric.labels.get("direction","")
-            value=str(timeseries_data.points[0].value.int64_value)
+        # for time_series in time_series_list:
+        #     print('5')
+        metric_type = request_data["metric"]["type"]
+        metrics_labels = request_data["metric"]["labels"]
+        conversation_type=metrics_labels["conversation_type"]
+        carrier=metrics_labels["carrier"]
+        sip_method=metrics_labels["sip_method"]
+        response_code=metrics_labels["response_code"]
+        direction=metrics_labels["direction"]
+        value= request_data["points"][0]["value"]["int64Value"]
 
-            print('6')
+        print('6')
             
-            data = {
-                    metric_type : metric_type,
-                    conversation_type : conversation_type,
-                    carrier : carrier,
-                    sip_method : sip_method,
-                    response_code : response_code,
-                    direction : direction,
-                    value : value
-                   }
+        data = {
+            metric_type : metric_type,
+            conversation_type : conversation_type,
+            carrier : carrier,
+            sip_method : sip_method,
+            response_code : response_code,
+            direction : direction,
+            value : value
+        }
 
-            data_list.append(data)
+        data_list.append(data)
 
         print('7')
         
