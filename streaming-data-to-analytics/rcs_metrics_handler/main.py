@@ -119,7 +119,7 @@ def log_metrics_value(data_list = {}):
     # tasks.append(option_3_task)
 
     # Option-4
-    # Log the Metrics into Standard Output (can be tracked Cloud Logging)
+    # Log the Metrics into Standard Output (can be tracked via Cloud Logging)
 
     send_metrics_to_stdio(data_list)
 
