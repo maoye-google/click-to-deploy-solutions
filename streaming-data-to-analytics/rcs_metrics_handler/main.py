@@ -95,7 +95,7 @@ def send_metrics_to_stdio(data_list = {}):
         logging.debug(msg)
         
     # print('Fishin running send_metrics_to_stdio !')
-    # logging.debug(f"Fishin running send_metrics_to_stdio !")
+    logging.debug(f"Fishin running send_metrics_to_stdio !")
 
 
 def log_metrics_value(data_list = {}):
@@ -161,7 +161,7 @@ def process_pubsub_message():
 
         # print('3')
         
-        print(request_data)
+        logging.debug(request_data)
         # t=request_data["timeSeries"]
         # time_series_list = extract_time_series(t)
         data_list = []
@@ -179,7 +179,7 @@ def process_pubsub_message():
         direction=metrics_labels.get("direction","")
         value= request_data["points"][0]["value"]["int64Value"]
 
-        print('6')
+        # print('6')
             
         data = {
             "metric_type" : metric_type,
