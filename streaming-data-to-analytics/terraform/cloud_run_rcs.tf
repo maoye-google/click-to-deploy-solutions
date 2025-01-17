@@ -19,7 +19,7 @@ resource "google_cloud_run_v2_service" "rcs_metrics_handler" {
       "autoscaling.knative.dev/minScale" = "1"
       "autoscaling.knative.dev/maxScale" = "1"
     }
-    labels = local.rcs_resource_labels
+    labels = local.resource_labels
   }
 
   traffic {
