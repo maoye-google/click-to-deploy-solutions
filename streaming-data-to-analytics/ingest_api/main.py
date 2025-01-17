@@ -132,12 +132,14 @@ def publish_rcs_metrics():
             logging.info(f"Published RCS metrics of Type ({metric_type})")
             
         logging.info(f"Totally published {len(time_series_list)} RCS metrics")
+        return f"Success : Published {len(time_series_list)} RCS metrics"
 
     except Exception as e:
         logging.error(e)
         traceback.print_exc()
+        return 'error:{}'.format(ex), http.HTTPStatus.INTERNAL_SERVER_ERROR
 
-    return 'success'
+    
 
 @app.route("/", methods=['GET'], endpoint="hello")
 def hello():
