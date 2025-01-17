@@ -7,10 +7,12 @@ locals {
     }
   )
 
-  ingest_api_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-ingest-api:${var.ingest_api_tag}"
   function_name        = "ingest-api"
+  ingest_api_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-ingest-api:${var.ingest_api_tag}"
   message_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-message-handler:${var.message_handler_tag}"
+  rcs_metrics_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-rcs-metrics-handler:${var.rcs_metrics_handler_tag}"
   handler_name         = "message-handler"
+  rcs_metrics_handler_name         = "rcs-metrics-handler"
 }
 
 variable "project_id" {
@@ -33,8 +35,8 @@ variable "message_handler_tag" {
   default     = "latest"
 }
 
-variable "rcs_metrics_message_handler_tag" {
-  description = "Android RCS Metrics Message Handler container tag"
+variable "rcs_metrics_handler_tag" {
+  description = "Android RCS Metrics Handler container tag"
   default     = "latest"
 }
 
