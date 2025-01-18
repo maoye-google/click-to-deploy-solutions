@@ -77,7 +77,7 @@ class GoogleCloudMonitoringUtil:
             logger.debug(f"Descriptor for {self.metric_type} already exist")
             return None
 
-        logger.debug(f"Ready to create Metric Descriptor for {self.metric_type}")
+        logger.debug(f"Ready to create User Metric Descriptor for {self.metric_type}")
 
         descriptor = ga_metric.MetricDescriptor()
         descriptor.type = self.metric_type
@@ -99,7 +99,7 @@ class GoogleCloudMonitoringUtil:
             descriptor = self.client.create_metric_descriptor(
                 name=self.project_name, metric_descriptor=descriptor
             )
-            logger.info(f"Created {descriptor.name}")
+            logger.info(f"Created User Metric Descriptor for {self.metric_type}")
             return descriptor
         except Exception as e:
             logger.debug(f"Metric descriptor for {self.metric_type} cannot be created !")
@@ -121,55 +121,36 @@ class GoogleCloudMonitoringUtil:
         self.labels = labels
         self.metric_descriptor = self.create_metric_descriptor()
 
-
-    def prepare_single_time_series_data(self, start_time, end_time, value):
-        """
-        Prepare a single data point to a time series if the metric descriptor exists.
-
-        Args:
-            metric_type: The full metric type identifier (e.g., "custom.googleapis.com/my_metric").
-            value: The numerical value of the data point.
-            metric_labels: A dictionary of label key-value pairs.
-
-        Returns:
-            None
-        """
-        
-        point = monitoring_v3.Point()
-        point.value.int64_value = int(value)
-        
-        date_format = "%Y-%m-%dT%H:%M"
-        point.interval.start_time = datetime.strptime(start_time, date_format)
-        point.interval.end_time = datetime.strptime(end_time, date_format)
-
-        logger.debug("Successfully prepared a new time series point data.")
-        return point
-
     
-    def write_time_series_data(self, time_series_data, metric_labels=None):
+    def write_time_series_data(self, start_time, end_time, value, metric_labels=None):
         if not self.metric_already_exist:
             logger.warning(f"Metric descriptor {self.metric_type} does not exist. Cannot write time series data.")
             return
 
-        series = monitoring_v3.TimeSeries()
-        series.metric.type = self.metric_type
-        series.points = []
+        point = monitoring_v3.Point()
+        point.value.int64_value = int(value)
+        
+        _date_format = "%Y-%m-%dT%H:%M:%Sz"
+        point.interval.start_time = datetime.strptime(start_time, _date_format)
+        point.interval.end_time = datetime.strptime(end_time, _date_format)
+
+        single_time_series = monitoring_v3.TimeSeries({
+            "metric":{"type":self.metric_type,"labels":{}},
+            "resource":{"type":"global","labels":{}},
+            "points":[point]
+        })
 
         if metric_labels:
             for key, label_value in metric_labels.items():
-                series.metric.labels[key] = label_value
+                single_time_series.metric.labels[key] = label_value
 
-        for single_data in time_series_data:
-            point = self.prepare_single_time_series_data(
-                single_data.get("start_time"),
-                single_data.get("end_time"),
-                single_data.get("value")
-                )
-            if point:
-                series.points.append(point)
+        request = monitoring_v3.CreateTimeSeriesRequest(
+            name=self.project_name,
+            time_series=[single_time_series]
+        )
 
-        self.client.create_time_series(name=self.project_name, time_series=[series])
-        logger.debug("Successfully wrote time series data.")
+        self.client.create_time_series(request=request)
+        logger.debug(f"Successfully wrote 1 unit time series data.")
 
 
 # # Example Usage:

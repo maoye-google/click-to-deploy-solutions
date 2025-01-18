@@ -97,11 +97,9 @@ def extract_time_series(json_list=None):
 
 def send_metrics_to_cloud_monitoring(data_list = {}):
     for data in data_list:
-        point = {
-            "start_time" : data.get("start_time"),
-            "end_time" : data.get("end_time"),
-            "value":data.get("value")
-        }
+        start_time = data.get("start_time")
+        end_time = data.get("end_time")
+        value = data.get("value")
         labels = {
             "conversation_type" : data.get("conversation_type"),
             "carrier" : data.get("carrier"),
@@ -112,9 +110,9 @@ def send_metrics_to_cloud_monitoring(data_list = {}):
         metric_type = data.get("metric_type")
         logger.debug(f"Write {metric_type} metric data")
         if metric_type == "rcs_request_count":
-            rcs_request_count_metrics_util.write_time_series_data([point],labels)
+            rcs_request_count_metrics_util.write_time_series_data(start_time, end_time, value, labels)
         elif metric_type == "rcs_final_response_count":
-            rcs_final_response_count_metrics_util.write_time_series_data([point],labels)
+            rcs_final_response_count_metrics_util.write_time_series_data(start_time, end_time, value, labels)
 
         msg = f"Finished sending metrics to Cloud Monitoring"
         logger.info(msg)
@@ -211,8 +209,8 @@ def process_pubsub_message():
         sip_method=metrics_labels.get("sip_method","")
         response_code=metrics_labels.get("response_code","")
         direction=metrics_labels.get("direction","")
-        start_time= request_data["points"][0]["interval"]["start_time"]
-        end_time= request_data["points"][0]["interval"]["end_time"]
+        start_time= request_data["points"][0]["interval"]["startTime"]
+        end_time= request_data["points"][0]["interval"]["endTime"]
         value= request_data["points"][0]["value"]["int64Value"]
 
         # print('6')
