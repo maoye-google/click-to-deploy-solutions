@@ -71,7 +71,7 @@ class GoogleCloudMonitoringUtil:
         Returns:
             The created metric descriptor (google.api.metric_pb2.MetricDescriptor) or None if it already exists.
         """
-        if self.metric_descriptor_exists(self.metric_type):
+        if self.metric_descriptor_exists():
             return None
 
         descriptor = ga_metric.MetricDescriptor()
