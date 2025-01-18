@@ -42,7 +42,7 @@ steps:
 - name: 'gcr.io/cloud-builders/zip' # Zip the Cloud Function code
   args:
     - '-r'
-    - '${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
+    - 'tmp/${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
     - '.'
   dir: 'rcs_metrics_saver' # Directory where your main.py and requirements.txt are
 # Terraform steps
