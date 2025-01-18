@@ -38,13 +38,16 @@ class GoogleCloudMonitoringUtil:
             return True
         
         metric_name = f"{self.project_name}/metricDescriptors/{self.metric_type}"
+
         try:
+        
             self.client.get_metric_descriptor(name=metric_name)
             logger.debug(f"Metric descriptor {metric_name} already exists.")
             self.metric_already_exist = True
             return True
+        
         except Exception as e:
-            if "does not exist" in str(e):
+            if ("does not exist" in str(e)) or ("Could not find" in str(e)):
                 logger.debug(f"Metric descriptor {metric_name} does not exist.")
                 return False
             else:
@@ -54,7 +57,7 @@ class GoogleCloudMonitoringUtil:
 
     def create_metric_descriptor(
         self,
-        metric_kind=ga_metric.MetricDescriptor.MetricKind.DELTA,
+        metric_kind=ga_metric.MetricDescriptor.MetricKind.CUMULATIVE,
         value_type=ga_metric.MetricDescriptor.ValueType.INT64,
         description="Custom metric"
     ):
@@ -115,7 +118,7 @@ class GoogleCloudMonitoringUtil:
         self.project_name = f"projects/{project_id}"
         self.metric_already_exist = False
         self.metric_type = f"custom.googleapis.com/{metric_type}"
-        self.lables = labels
+        self.labels = labels
         self.metric_descriptor = self.create_metric_descriptor()
 
 
