@@ -1,5 +1,5 @@
 resource "google_service_account" "ingest_api" {
-  account_id   = local.function_name
+  account_id   = local.ingest_api_name
   display_name = "Cloud Function Ingest API"
   create_ignore_already_exists = true
 }

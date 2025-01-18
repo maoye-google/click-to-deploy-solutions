@@ -7,12 +7,12 @@ locals {
     }
   )
 
-  function_name        = "ingest-api"
-  ingest_api_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-ingest-api:${var.ingest_api_tag}"
-  message_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-message-handler:${var.message_handler_tag}"
+  ingest_api_name           = "ingest-api"
+  ingest_api_container    = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-ingest-api:${var.ingest_api_tag}"
+  order_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-order-handler:${var.order_handler_tag}"
   rcs_metrics_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-rcs-metrics-handler:${var.rcs_metrics_handler_tag}"
-  handler_name         = "message-handler"
-  rcs_metrics_handler_name         = "rcs-metrics-handler"
+  order_handler_name            = "order-handler"
+  rcs_metrics_handler_name      = "rcs-metrics-handler"
 }
 
 variable "project_id" {
@@ -30,8 +30,8 @@ variable "ingest_api_tag" {
   default     = "latest"
 }
 
-variable "message_handler_tag" {
-  description = "Message Handler container tag"
+variable "order_handler_tag" {
+  description = "Order Handler container tag"
   default     = "latest"
 }
 

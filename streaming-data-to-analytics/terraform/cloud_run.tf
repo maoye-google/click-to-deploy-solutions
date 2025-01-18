@@ -1,6 +1,6 @@
 # Ingest_API Cloud Run service
 resource "google_cloud_run_v2_service" "ingest_api" {
-  name     = local.function_name
+  name     = local.ingest_api_name
   location = var.region
 
   template {
@@ -29,15 +29,15 @@ resource "google_cloud_run_v2_service" "ingest_api" {
   }
 }
 
-# Message Handler Cloud Run service (for Sample Message)
-resource "google_cloud_run_v2_service" "message_handler" {
-  name     = local.handler_name
+# Order Handler Cloud Run service (for Sample Message)
+resource "google_cloud_run_v2_service" "order_handler" {
+  name     = local.order_handler_name
   location = var.region
 
   template {
     service_account = google_service_account.ingest_api.email
     containers {
-      image = local.message_handler_container
+      image = local.order_handler_container
       env {
         name  = "PROJECT_ID"
         value = var.project_id

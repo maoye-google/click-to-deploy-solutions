@@ -6,7 +6,7 @@ resource "google_pubsub_topic" "ingest_api" {
 # ######################################################################
 
 # Forward Order Event to BQ via Pub/Sub
-resource "google_pubsub_subscription" "order_to_bq_sub" {
+resource "google_pubsub_subscription" "raw_order_to_bq" {
   name   = "order-event-to-bigquery"
   topic  = google_pubsub_topic.ingest_api.name
   labels = local.resource_labels
@@ -24,14 +24,14 @@ resource "google_pubsub_subscription" "order_to_bq_sub" {
 }
 
 # Forward Unknown Event to BQ via Pub/Sub
-resource "google_pubsub_subscription" "unknown_to_bq_sub" {
-  name   = "unknown-to-bigquery"
+resource "google_pubsub_subscription" "raw_unknown_to_bq" {
+  name   = "unknown-event-to-bigquery"
   topic  = google_pubsub_topic.ingest_api.name
   labels = local.resource_labels
-  filter = "attributes.entity=\"unknown\""
+  filter = "attributes.entity=\"unknown-event\""
 
   bigquery_config {
-    table          = "${google_bigquery_table.raw_unknown.project}.${google_bigquery_table.raw_unknown.dataset_id}.${google_bigquery_table.raw_unknown.table_id}"
+    table          = "${google_bigquery_table.raw_unknown_events.project}.${google_bigquery_table.raw_unknown_events.dataset_id}.${google_bigquery_table.raw_unknown_events.table_id}"
     write_metadata = true
   }
 
@@ -43,15 +43,15 @@ resource "google_pubsub_subscription" "unknown_to_bq_sub" {
 
 # ######################################################################
 
-# Forward Order Event to Message Handler
-resource "google_pubsub_subscription" "order_to_message_handler" {
-  name   = "order-event-to-message-handler"
+# Forward Order Event to Order Handler
+resource "google_pubsub_subscription" "order_event_to_order_handler" {
+  name   = "order-event-to-order-handler"
   topic  = google_pubsub_topic.ingest_api.name
   labels = local.resource_labels
   filter = "attributes.entity=\"order-event\""
 
   push_config {
-    push_endpoint = google_cloud_run_v2_service.message_handler.uri
+    push_endpoint = google_cloud_run_v2_service.order_handler.uri
     oidc_token {
       # service_account_name = google_service_account.ingest_api.email
       service_account_email = google_service_account.ingest_api.email

@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 def create_timeseries_request_modal(ts_data=None):
     if (ts_data is None):
-        print(f"Empty Result")
+        logger.error(f"Empty Result")
         return None
     # print("Step 12")
     time_series = TimeSeries()
@@ -148,13 +148,13 @@ def hello():
     return 'hello'
 
 @app.route("/", methods=['POST'])
-def publish():
+def publish_order():
     try:
         # Request validation
         args = request.args
         entity = args.get("entity")
         if not entity:
-            entity = "unknown"
+            entity = "unknown-event"
 
         # Get the request data
         data = request.get_data()

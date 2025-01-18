@@ -7,10 +7,10 @@ resource "google_bigquery_dataset" "rcs_metrics" {
 
 # ######################################################################
 
-resource "google_bigquery_table" "rcs_timeseris_request_count" {
+resource "google_bigquery_table" "raw_rcs_metrics" {
   dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
-  table_id            = "request_count"
-  description         = "Store Request Count Events streamed received by the Ingest API"
+  table_id            = "raw_rcs_metrics"
+  description         = "Store Raw RCS Metrics Event (from Pub/Sub) received by the Ingest API"
   deletion_protection = false
   labels              = local.resource_labels
 
@@ -20,79 +20,154 @@ resource "google_bigquery_table" "rcs_timeseris_request_count" {
   }
 
   schema = <<EOF
-[
-  {
-    "name": "subscription_name",
-    "type": "STRING",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "message_id",
-    "type": "STRING",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "publish_time",
-    "type": "TIMESTAMP",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "attributes",
-    "type": "STRING",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "data",
-    "type": "STRING",
-    "mode": "NULLABLE"
-  }
-]
-EOF
-
+  [
+    {
+      "name": "subscription_name",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "message_id",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "publish_time",
+      "type": "TIMESTAMP",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "attributes",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "data",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    }
+  ]
+  EOF
 }
 
 # ######################################################################
 
-resource "google_bigquery_table" "rcs_timeseris_final_response_count" {
+resource "google_bigquery_table" "rcs_metrics_request_count" {
   dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
-  table_id            = "final_response_count"
-  description         = "Store Final Response Count Events streamed received by the Ingest API"
+  table_id            = "rcs_metrics_request_count"
+  description         = "Store Received All RCS Request Metrics"
   deletion_protection = false
   labels              = local.resource_labels
 
   time_partitioning {
     type  = "DAY"
-    field = "publish_time"
+    field = "start_time"
   }
 
   schema = <<EOF
-[
-  {
-    "name": "subscription_name",
-    "type": "STRING",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "message_id",
-    "type": "STRING",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "publish_time",
-    "type": "TIMESTAMP",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "attributes",
-    "type": "STRING",
-    "mode": "NULLABLE"
-  },
-  {
-    "name": "data",
-    "type": "STRING",
-    "mode": "NULLABLE"
+  [
+    {
+      "name": "conversation_type",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "carrier",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "sip_method",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "response_code",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "direction",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "start_time",
+      "type": "TIMESTAMP",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "end_time",
+      "type": "TIMESTAMP",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "value",
+      "type": "INTEGER",
+      "mode": "NULLABLE"
+    }
+  ]
+  EOF
+
+}
+
+
+
+resource "google_bigquery_table" "rcs_metrics_final_response_count" {
+  dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
+  table_id            = "rcs_metrics_final_response_count"
+  description         = "Store Received All RCS Final Response Metrics"
+  deletion_protection = false
+  labels              = local.resource_labels
+
+  time_partitioning {
+    type  = "DAY"
+    field = "start_time"
   }
-]
-EOF
+
+  schema = <<EOF
+  [
+    {
+      "name": "conversation_type",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "carrier",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "sip_method",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "response_code",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "direction",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "start_time",
+      "type": "TIMESTAMP",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "end_time",
+      "type": "TIMESTAMP",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "value",
+      "type": "INTEGER",
+      "mode": "NULLABLE"
+    }
+  ]
+  EOF
 
 }
