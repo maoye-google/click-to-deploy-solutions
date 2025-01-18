@@ -8,6 +8,8 @@ from google.cloud.monitoring_v3.types import TimeSeries, TypedValue, Point, Time
 from google.protobuf.json_format import MessageToDict, MessageToJson
 from google.protobuf.timestamp_pb2 import Timestamp
 import google.protobuf.json_format
+import traceback
+from cloud_monitoring_metrics_module import GoogleCloudMonitoringUtil
 
 
 # --- Constants for Cloud Monitoring ---
@@ -21,6 +23,10 @@ PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
+
+rcs_metrics_labels = ["conversation_type","carrier","sip_method","response_code","direction"]
+rcs_request_count_metrics_util = GoogleCloudMonitoringUtil(PROJECT_ID, "rcs/sip/request_count",rcs_metrics_labels)
+rcs_final_response_count_metrics_util = GoogleCloudMonitoringUtil(PROJECT_ID, "rcs/sip/final_response_count",rcs_metrics_labels)
 
 def create_timeseries_request_modal(ts_data=None):
     if (ts_data is None):
@@ -88,6 +94,32 @@ def extract_time_series(json_list=None):
     return time_series_list
 
 
+def send_metrics_to_cloud_monitoring(data_list = {}):
+    for data in data_list:
+        point = {
+            "start_time" : data.get("start_time"),
+            "end_time" : data.get("end_time"),
+            "value":data.get("value")
+        }
+        labels = {
+            "conversation_type" : data.get("conversation_type"),
+            "carrier" : data.get("carrier"),
+            "sip_method" : data.get("sip_method"),
+            "response_code" : data.get("response_code"),
+            "direction" : data.get("direction"),
+        }
+        metric_type = data.get("metric_type")
+        if metric_type == "rcs_request_count":
+            rcs_request_count_metrics_util.write_time_series_data([point],labels)
+        elif metric_type == "rcs_final_response_count":
+            rcs_final_response_count_metrics_util.write_time_series_data([point],labels)
+
+        msg = f"Finished sending metrics to Cloud Monitoring"
+        logging.info(msg)
+        
+    # print('Fishin running send_metrics_to_stdio !')
+    logging.debug(f"Fishin running send_metrics_to_stdio !")
+
 def send_metrics_to_stdio(data_list = {}):
     for data in data_list:
         msg = f"RCS Metrics Logging : {json.dumps(data)}"
@@ -105,7 +137,7 @@ def log_metrics_value(data_list = {}):
     # Update Cloud Monitoring API to ingest the metrics
     # For this option, async task CANNOT be used. Otherwise you will receive error from the platform
 
-    # send_metrics_to_cloud_monitoring(data)
+    send_metrics_to_cloud_monitoring(data_list)
 
     # Option-2
     # Send the Metrics to external Monitoring Tool like NewRelic or DataDog
@@ -177,6 +209,8 @@ def process_pubsub_message():
         sip_method=metrics_labels.get("sip_method","")
         response_code=metrics_labels.get("response_code","")
         direction=metrics_labels.get("direction","")
+        start_time= request_data["points"][0]["interval"]["start_time"]
+        end_time= request_data["points"][0]["interval"]["end_time"]
         value= request_data["points"][0]["value"]["int64Value"]
 
         # print('6')
@@ -188,6 +222,8 @@ def process_pubsub_message():
             "sip_method" : sip_method,
             "response_code" : response_code,
             "direction" : direction,
+            "start_time" : start_time,
+            "end_time" : end_time,
             "value" : value
         }
 
