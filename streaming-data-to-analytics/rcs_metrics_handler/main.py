@@ -22,7 +22,8 @@ PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
 
 app = Flask(__name__)
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 rcs_metrics_labels = ["conversation_type","carrier","sip_method","response_code","direction"]
 rcs_request_count_metrics_util = GoogleCloudMonitoringUtil(PROJECT_ID, "rcs/sip/request_count",rcs_metrics_labels)
@@ -109,25 +110,26 @@ def send_metrics_to_cloud_monitoring(data_list = {}):
             "direction" : data.get("direction"),
         }
         metric_type = data.get("metric_type")
+        logger.debug(f"Write {metric_type} metric data")
         if metric_type == "rcs_request_count":
             rcs_request_count_metrics_util.write_time_series_data([point],labels)
         elif metric_type == "rcs_final_response_count":
             rcs_final_response_count_metrics_util.write_time_series_data([point],labels)
 
         msg = f"Finished sending metrics to Cloud Monitoring"
-        logging.info(msg)
+        logger.info(msg)
         
     # print('Fishin running send_metrics_to_stdio !')
-    logging.debug(f"Fishin running send_metrics_to_stdio !")
+    logger.debug(f"Fishin running send_metrics_to_stdio !")
 
 def send_metrics_to_stdio(data_list = {}):
     for data in data_list:
         msg = f"RCS Metrics Logging : {json.dumps(data)}"
         # print(msg)
-        logging.info(msg)
+        logger.info(msg)
         
     # print('Fishin running send_metrics_to_stdio !')
-    logging.debug(f"Fishin running send_metrics_to_stdio !")
+    logger.info(f"Fishin running send_metrics_to_stdio !")
 
 
 def log_metrics_value(data_list = {}):
@@ -165,12 +167,12 @@ def process_pubsub_message():
     envelope = request.get_json()
     if not envelope:
         msg = "no Pub/Sub message received"
-        logging.error(f"error: {msg}")
+        logger.error(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
     if not isinstance(envelope, dict) or "message" not in envelope:
         msg = "invalid Pub/Sub message format"
-        logging.error(f"error: {msg}")
+        logger.error(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
     pubsub_message = envelope["message"]
@@ -193,7 +195,7 @@ def process_pubsub_message():
 
         # print('3')
         
-        logging.debug(request_data)
+        logger.debug(request_data)
         # t=request_data["timeSeries"]
         # time_series_list = extract_time_series(t)
         data_list = []
@@ -233,13 +235,13 @@ def process_pubsub_message():
         
         log_metrics_value(data_list) 
 
-        logging.debug(f"Finish process RCS Metrics")
+        logger.debug(f"Finish process RCS Metrics")
 
         return "OK", 200
 
     except (ValueError, KeyError) as e:
         msg = f"error processing Pub/Sub message: {e}"
-        logging.error(f"error: {msg}")
+        logger.error(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
 if __name__ == "__main__":

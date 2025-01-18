@@ -16,6 +16,7 @@ import traceback
 
 PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
 TOPIC_ID = os.environ.get("TOPIC_ID")
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
@@ -75,7 +76,7 @@ def create_timeseries_request_modal(ts_data=None):
 def extract_time_series(json_list=None):
     time_series_list = []
     if (json_list is None):
-        print(f"Empty List")
+        logger.debug(f"Empty List")
         return None
     # print(json_list)
     for ts_data in json_list:
@@ -130,9 +131,9 @@ def publish_rcs_metrics():
                               value=str(timeseries_data.points[0].value.int64_value)
                              )
             # print("Step10")
-            print(f"Published RCS metrics of Type ({metric_type})")
+            logger.debug(f"Published RCS metrics of Type ({metric_type})")
             
-        print(f"Totally published {len(time_series_list)} RCS metrics")
+        logger.info(f"Totally published {len(time_series_list)} RCS metrics")
         return f"Success : Published {len(time_series_list)} RCS metrics"
 
     except Exception as ex:
@@ -167,7 +168,7 @@ def publish():
         # Publish the message to Pub/sub
         publisher.publish(topic_path, data, entity=entity)
     except Exception as ex:
-        logging.error(ex)
+        logger.error(ex)
         return 'error:{}'.format(ex), http.HTTPStatus.INTERNAL_SERVER_ERROR
 
     return 'success'

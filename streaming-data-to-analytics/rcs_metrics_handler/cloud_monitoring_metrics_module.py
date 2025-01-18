@@ -62,7 +62,6 @@ class GoogleCloudMonitoringUtil:
         Creates a custom metric descriptor if it doesn't exist.
 
         Args:
-            metric_type: The full metric type identifier (e.g., "custom.googleapis.com/my_metric").
             metric_kind: The kind of metric (e.g., GAUGE, CUMULATIVE, DELTA).
             value_type: The data type of the metric (e.g., INT64, DOUBLE, BOOL, STRING, DISTRIBUTION).
             description: A description of the metric.
@@ -72,7 +71,10 @@ class GoogleCloudMonitoringUtil:
             The created metric descriptor (google.api.metric_pb2.MetricDescriptor) or None if it already exists.
         """
         if self.metric_descriptor_exists():
+            logger.debug(f"Descriptor for {self.metric_type} already exist")
             return None
+
+        logger.debug(f"Ready to create Metric Descriptor for {self.metric_type}")
 
         descriptor = ga_metric.MetricDescriptor()
         descriptor.type = self.metric_type
@@ -90,11 +92,15 @@ class GoogleCloudMonitoringUtil:
                 label_descriptors.append(label_desc)
             descriptor.labels.extend(label_descriptors)
 
-        descriptor = self.client.create_metric_descriptor(
-            name=self.project_name, metric_descriptor=descriptor
-        )
-        logger.info(f"Created {descriptor.name}")
-        return descriptor
+        try:
+            descriptor = self.client.create_metric_descriptor(
+                name=self.project_name, metric_descriptor=descriptor
+            )
+            logger.info(f"Created {descriptor.name}")
+            return descriptor
+        except Exception as e:
+            logger.debug(f"Metric descriptor for {self.metric_type} cannot be created !")
+            raise e
 
 
     def __init__(self, project_id, metric_type,labels=None):
@@ -160,7 +166,7 @@ class GoogleCloudMonitoringUtil:
                 series.points.append(point)
 
         self.client.create_time_series(name=self.project_name, time_series=[series])
-        logger.info("Successfully wrote time series data.")
+        logger.debug("Successfully wrote time series data.")
 
 
 # # Example Usage:

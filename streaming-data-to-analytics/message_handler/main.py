@@ -16,7 +16,8 @@ PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
 
 app = Flask(__name__)
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Initialize your own handling client logic
 # i.e. new_relic_client = New ....
@@ -28,12 +29,12 @@ def process_pubsub_message():
     envelope = request.get_json()
     if not envelope:
         msg = "no Pub/Sub message received"
-        logging.error(f"error: {msg}")
+        logger.error(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
     if not isinstance(envelope, dict) or "message" not in envelope:
         msg = "invalid Pub/Sub message format"
-        logging.error(f"error: {msg}")
+        logger.error(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
     pubsub_message = envelope["message"]
@@ -59,7 +60,7 @@ def process_pubsub_message():
         # Log the message content
         msg = f"Received Order: order_id={order_id}, publish_time={publish_time}, customer_email={customer_email}, phone_number={phone_number}, action={action}"
         # print(msg)
-        logging.info(msg)
+        logger.info(msg)
 
 
         # Add your own handling logic here
@@ -70,7 +71,7 @@ def process_pubsub_message():
 
     except (ValueError, KeyError) as e:
         msg = f"error processing Pub/Sub message: {e}"
-        logging.error(f"error: {msg}")
+        logger.error(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
 if __name__ == "__main__":
