@@ -57,3 +57,9 @@ variable "dashboard_json_path" {
   type        = string
   default     = "../dashboard/order_count_dashboard.json"
 }
+
+variable "rcs_dashboard_json_path" {
+  description = "Native Dashboard for RCS Metrics (Log Metrics)"
+  type        = string
+  default     = "../dashboard/rcs_metrics_dashboard.json"
+}

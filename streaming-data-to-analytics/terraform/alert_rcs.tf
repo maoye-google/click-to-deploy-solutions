@@ -2,41 +2,27 @@ resource "google_logging_metric" "rcs_request_count" {
   project = var.project_id
   name   = "rcs_request_count"
   filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/request_count.*\""
-  value_extractor = "REGEXP_EXTRACT(textPayload, \"\\\"value\\\":\\\\s\\\"([0-9.]+)\\\"\")"
+  # value_extractor = "REGEXP_EXTRACT(textPayload, \"\\\"value\\\":\\s\\\"([0-9.]+)\\\"\")"
 
   description = "Count of RCS Request from Log"
   metric_descriptor {
     metric_kind = "DELTA"
-    value_type  = "DISTRIBUTION"
+    value_type  = "INT64"
     unit        = "1"
-  }
-  bucket_options {
-    linear_buckets {
-      num_finite_buckets = 1  # Number of buckets
-      width              = 10   # Width of each bucket
-      offset             = 0    # Starting value for the first bucket
-    }
   }
 }
 
 resource "google_logging_metric" "rcs_response_200_count" {
   project = var.project_id
   name   = "rcs_response_200_count"
-  filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/final_response_count.*\\\"response_code\\\":\\s\\\"200\\\"\""
-  value_extractor = "REGEXP_EXTRACT(textPayload, \"\\\"value\\\":\\\\s\\\"([0-9.]+)\\\"\")"
+  filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/final_response_count.*\" AND textPayload=~\".*(\\\"response_code\\\":\\s\\\"200\\\")\""
+  # value_extractor = "REGEXP_EXTRACT(textPayload, \"\\\"value\\\":\\s\\\"([0-9.]+)\\\"\")"
   
   description = "Count of RCS Final Response (200) from Log"
   metric_descriptor {
     metric_kind = "DELTA"
-    value_type  = "DISTRIBUTION"
+    value_type  = "INT64"
     unit        = "1"
-  }
-  bucket_options {
-    linear_buckets {
-      num_finite_buckets = 1  # Number of buckets
-      width              = 10   # Width of each bucket
-      offset             = 0    # Starting value for the first bucket
-    }
   }
 }
 
@@ -44,22 +30,15 @@ resource "google_logging_metric" "rcs_response_200_count" {
 resource "google_logging_metric" "rcs_response_non_200_count" {
   project = var.project_id
   name   = "rcs_response_non_200_count"
-  filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/final_response_count.*\\\"response_code\\\":\\s\\\"(!200)\\\"\""
-  value_extractor = "REGEXP_EXTRACT(textPayload, \"\\\"value\\\":\\\\s\\\"([0-9.]+)\\\"\")"
+  filter = "severity>=DEFAULT AND resource.type = \"cloud_run_revision\" AND resource.labels.service_name = \"rcs-metrics-handler\" AND textPayload=~\"RCS Metrics Logging.*custom.googleapis.com/rcs/sip/final_response_count.*\" AND -textPayload=~\".*(\\\"response_code\\\":\\s\\\"200\\\")\""
+  # value_extractor = "REGEXP_EXTRACT(textPayload, \"\\\"value\\\":\\s\\\"([0-9.]+)\\\"\")"
   
   description = "Count of RCS Final Response (None 200) from Log"
 
   metric_descriptor {
     metric_kind = "DELTA"
-    value_type  = "DISTRIBUTION"
+    value_type  = "INT64"
     unit        = "1"
-  }
-  bucket_options {
-    linear_buckets {
-      num_finite_buckets = 1  # Number of buckets
-      width              = 10   # Width of each bucket
-      offset             = 0    # Starting value for the first bucket
-    }
   }
 }
 
@@ -116,7 +95,7 @@ resource "google_monitoring_alert_policy" "non_200_rcs_rate_exceed_policy" {
 }
 
 # Dashboard
-# resource "google_monitoring_dashboard" "order_counter_dashboard_2" {
-#   project = var.project_id
-#   dashboard_json = file(var.dashboard_json_path)
-# }
+resource "google_monitoring_dashboard" "rcs_metrics_dashboard" {
+  project = var.project_id
+  dashboard_json = file(var.rcs_dashboard_json_path)
+}

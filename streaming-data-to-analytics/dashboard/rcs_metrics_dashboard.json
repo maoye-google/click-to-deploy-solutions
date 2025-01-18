@@ -1,5 +1,5 @@
 {
-    "displayName": "Received Order (Log Metrics)",
+    "displayName": "Received RCS Metrics (Log Metrics)",
     "mosaicLayout": {
       "columns": 48,
       "tiles": [
@@ -12,7 +12,7 @@
                 {
                   "timeSeriesQuery": {
                     "timeSeriesFilter": {
-                      "filter": "resource.type = \"cloud_run_revision\" AND metric.type = \"logging.googleapis.com/user/order_count_2\"",
+                      "filter": "resource.type = \"cloud_run_revision\" AND metric.type = \"logging.googleapis.com/user/rcs_request_count\"",
                       "aggregation": {
                         "alignmentPeriod": "60s",
                         "perSeriesAligner": "ALIGN_SUM",
@@ -50,7 +50,109 @@
                 "displayHorizontal": false
               }
             },
-            "title": "Cloud Run Revision - logging/user/order_count_2",
+            "title": "RCS Received Requests",
+            "id": ""
+          }
+        },
+        {
+          "width": 30,
+          "height": 20,
+          "widget": {
+            "xyChart": {
+              "dataSets": [
+                {
+                  "timeSeriesQuery": {
+                    "timeSeriesFilter": {
+                      "filter": "resource.type = \"cloud_run_revision\" AND metric.type = \"logging.googleapis.com/user/rcs_response_200_count\"",
+                      "aggregation": {
+                        "alignmentPeriod": "60s",
+                        "perSeriesAligner": "ALIGN_SUM",
+                        "crossSeriesReducer": "REDUCE_SUM",
+                        "groupByFields": []
+                      }
+                    },
+                    "unitOverride": "",
+                    "outputFullDuration": false
+                  },
+                  "plotType": "LINE",
+                  "legendTemplate": "",
+                  "targetAxis": "Y1",
+                  "dimensions": [],
+                  "measures": [],
+                  "breakdowns": []
+                }
+              ],
+              "thresholds": [
+                {
+                  "label": "",
+                  "value": 100,
+                  "color": "COLOR_UNSPECIFIED",
+                  "direction": "DIRECTION_UNSPECIFIED",
+                  "targetAxis": "Y1"
+                }
+              ],
+              "xAxis": {
+                "label": "",
+                "scale": "LINEAR"
+              },
+              "chartOptions": {
+                "mode": "COLOR",
+                "showLegend": true,
+                "displayHorizontal": false
+              }
+            },
+            "title": "RCS Received 200 Responses",
+            "id": ""
+          }
+        },
+        {
+          "width": 30,
+          "height": 20,
+          "widget": {
+            "xyChart": {
+              "dataSets": [
+                {
+                  "timeSeriesQuery": {
+                    "timeSeriesFilter": {
+                      "filter": "resource.type = \"cloud_run_revision\" AND metric.type = \"logging.googleapis.com/user/rcs_response_non_200_count\"",
+                      "aggregation": {
+                        "alignmentPeriod": "60s",
+                        "perSeriesAligner": "ALIGN_SUM",
+                        "crossSeriesReducer": "REDUCE_SUM",
+                        "groupByFields": []
+                      }
+                    },
+                    "unitOverride": "",
+                    "outputFullDuration": false
+                  },
+                  "plotType": "LINE",
+                  "legendTemplate": "",
+                  "targetAxis": "Y1",
+                  "dimensions": [],
+                  "measures": [],
+                  "breakdowns": []
+                }
+              ],
+              "thresholds": [
+                {
+                  "label": "",
+                  "value": 100,
+                  "color": "COLOR_UNSPECIFIED",
+                  "direction": "DIRECTION_UNSPECIFIED",
+                  "targetAxis": "Y1"
+                }
+              ],
+              "xAxis": {
+                "label": "",
+                "scale": "LINEAR"
+              },
+              "chartOptions": {
+                "mode": "COLOR",
+                "showLegend": true,
+                "displayHorizontal": false
+              }
+            },
+            "title": "RCS Received Non-200 Responses",
             "id": ""
           }
         }

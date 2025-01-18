@@ -91,8 +91,8 @@ def extract_time_series(json_list=None):
 def send_metrics_to_stdio(data_list = {}):
     for data in data_list:
         msg = f"RCS Metrics Logging : {json.dumps(data)}"
-        print(msg)
-        logging.debug(msg)
+        # print(msg)
+        logging.info(msg)
         
     # print('Fishin running send_metrics_to_stdio !')
     logging.debug(f"Fishin running send_metrics_to_stdio !")
