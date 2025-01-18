@@ -55,6 +55,7 @@
           }
         },
         {
+          "yPos": 20,
           "width": 30,
           "height": 20,
           "widget": {
@@ -106,6 +107,7 @@
           }
         },
         {
+          "yPos": 40,
           "width": 30,
           "height": 20,
           "widget": {
