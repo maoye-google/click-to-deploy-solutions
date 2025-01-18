@@ -49,6 +49,7 @@ gcloud services enable cloudbuild.googleapis.com \
     compute.googleapis.com \
     servicenetworking.googleapis.com \
     storage.googleapis.com \
+    cloudfunctions.googleapis.com \
     iam.googleapis.com \
     run.googleapis.com \
     pubsub.googleapis.com \

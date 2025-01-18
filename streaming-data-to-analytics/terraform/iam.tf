@@ -30,18 +30,26 @@ resource "google_project_iam_member" "cloudrun_invoker" {
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
 }
 
+resource "google_project_iam_member" "cloudfunction_invoker" {
+  project = var.project_id
+  role    = "roles/cloudfunctions.invoker"
+  member  = "serviceAccount:${google_service_account.ingest_api.email}"
+}
+
 resource "google_project_iam_member" "token_creator" {
   project = var.project_id
   role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
 }
 
+# Grant the Cloud Run's service account permissions to write to Cloud Monitoring
 resource "google_project_iam_member" "cloud_monitoring_writer" {
   project = var.project_id
   role    = "roles/monitoring.editor"
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
 }
 
+# Grant the Cloud PubSub service account permissions to write to BigQuery
 resource "google_project_iam_member" "pubsub_bqEditor" {
   project = var.project_id
   role    = "roles/bigquery.dataEditor"

@@ -3,7 +3,7 @@
 # Forward RCS Time Series Metrics (Request Count) to Message Handler
 resource "google_pubsub_subscription" "rcs_metrics_to_rcs_metrics_handler" {
   name   = "rcs-metrics-to-rcs-metrics-handler"
-  topic  = google_pubsub_topic.ingest_api.name
+  topic  = google_pubsub_topic.rcs_topic.name
   labels = local.resource_labels
   filter = "attributes.metric_type=\"custom.googleapis.com/rcs/sip/request_count\" OR attributes.metric_type=\"custom.googleapis.com/rcs/sip/final_response_count\""
 

@@ -13,6 +13,9 @@ locals {
   rcs_metrics_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-rcs-metrics-handler:${var.rcs_metrics_handler_tag}"
   order_handler_name            = "order-handler"
   rcs_metrics_handler_name      = "rcs-metrics-handler"
+  res_request_count_metrics_type = "custom.googleapis.com/rcs/sip/request_count"
+  res_final_response_count_metrics_type = "custom.googleapis.com/rcs/sip/final_response_count"
+
 }
 
 variable "project_id" {
@@ -50,6 +53,11 @@ variable "rcs_resource_labels" {
   type        = map(string)
   description = "Android RCS Metrics"
   default     = {}
+}
+
+variable "rcs_metrics_saver_cf_zip_name" {
+  description = "Zipped Cloud Functions' Source Code File Name"
+  default     = "rcs-metrics-saver-src.zip"
 }
 
 variable "dashboard_json_path" {

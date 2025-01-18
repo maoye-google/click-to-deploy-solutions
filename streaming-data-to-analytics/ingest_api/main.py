@@ -15,7 +15,10 @@ import traceback
 
 
 PROJECT_ID = os.getenv("PROJECT_ID")  # Get project ID from environment variable
-TOPIC_ID = os.environ.get("TOPIC_ID")
+ORDER_TOPIC_ID = os.environ.get("ORDER_TOPIC_ID")
+RCS_TOPIC_ID = os.environ.get("RCS_TOPIC_ID")
+
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -109,7 +112,7 @@ def publish_rcs_metrics():
 
         # Pub/sub publisher
         publisher = pubsub_v1.PublisherClient()
-        topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
+        topic_path = publisher.topic_path(PROJECT_ID, RCS_TOPIC_ID)
         # print("Step4")
 
         for timeseries_data in time_series_list:
@@ -163,7 +166,7 @@ def publish_order():
 
         # Pub/sub publisher
         publisher = pubsub_v1.PublisherClient()
-        topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
+        topic_path = publisher.topic_path(PROJECT_ID, ORDER_TOPIC_ID)
         
         # Publish the message to Pub/sub
         publisher.publish(topic_path, data, entity=entity)

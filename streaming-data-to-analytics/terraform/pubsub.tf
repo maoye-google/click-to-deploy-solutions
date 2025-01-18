@@ -1,5 +1,5 @@
-resource "google_pubsub_topic" "ingest_api" {
-  name   = "ingest-api"
+resource "google_pubsub_topic" "order_topic" {
+  name   = "order_topic"
   labels = local.resource_labels
 }
 
@@ -8,7 +8,7 @@ resource "google_pubsub_topic" "ingest_api" {
 # Forward Order Event to BQ via Pub/Sub
 resource "google_pubsub_subscription" "raw_order_to_bq" {
   name   = "order-event-to-bigquery"
-  topic  = google_pubsub_topic.ingest_api.name
+  topic  = google_pubsub_topic.order_topic.name
   labels = local.resource_labels
   filter = "attributes.entity=\"order-event\""
 
@@ -26,7 +26,7 @@ resource "google_pubsub_subscription" "raw_order_to_bq" {
 # Forward Unknown Event to BQ via Pub/Sub
 resource "google_pubsub_subscription" "raw_unknown_to_bq" {
   name   = "unknown-event-to-bigquery"
-  topic  = google_pubsub_topic.ingest_api.name
+  topic  = google_pubsub_topic.order_topic.name
   labels = local.resource_labels
   filter = "attributes.entity=\"unknown-event\""
 
@@ -46,7 +46,7 @@ resource "google_pubsub_subscription" "raw_unknown_to_bq" {
 # Forward Order Event to Order Handler
 resource "google_pubsub_subscription" "order_event_to_order_handler" {
   name   = "order-event-to-order-handler"
-  topic  = google_pubsub_topic.ingest_api.name
+  topic  = google_pubsub_topic.order_topic.name
   labels = local.resource_labels
   filter = "attributes.entity=\"order-event\""
 
