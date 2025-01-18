@@ -1,0 +1,33 @@
+steps:
+  # Terraform steps
+- id: 'tf init'
+  name: 'hashicorp/terraform:1.0.0'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - | 
+    terraform init \
+    -backend-config="bucket=$PROJECT_ID-tf-state" \
+    -backend-config="prefix=streaming-data"
+  dir: terraform
+- id: 'tf apply'
+  name: 'hashicorp/terraform:1.0.0'
+  args: 
+  - apply
+  - -target=google_logging_metric.rcs_request_count
+  - -target=google_logging_metric.rcs_response_200_count
+  - -target=google_logging_metric.rcs_response_non_200_count
+  - -auto-approve
+  dir: terraform
+options:
+  dynamic_substitutions: true
+  env:
+    - TF_VAR_project_id=$PROJECT_ID
+    - TF_VAR_ingest_api_tag=$BUILD_ID
+    - TF_VAR_message_handler_tag=$BUILD_ID
+    - TF_VAR_rcs_metrics_handler_tag=$BUILD_ID
+tags:
+  - terraform
+  - streaming-data
+  - plan-apply
+timeout: 3600s
