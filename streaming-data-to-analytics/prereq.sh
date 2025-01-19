@@ -65,6 +65,7 @@ add_iam_member $MEMBER roles/editor
 add_iam_member $MEMBER roles/iam.securityAdmin
 add_iam_member $MEMBER roles/compute.networkAdmin
 add_iam_member $MEMBER roles/secretmanager.admin
+add_iam_member $MEMBER roles/pubsub.admin
 
 echo Create Docker repository
 if gcloud artifacts repositories describe docker-repo --location=$REPO_LOCATION; then
