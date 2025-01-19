@@ -22,42 +22,6 @@ resource "google_storage_bucket_object" "archive" {
   content_type = "application/zip"
 }
 
-# resource "google_cloudfunctions_function" "save_rcs_metrics_to_bigquery" {
-#   name        = "save-rcs-metrics-to-bigquery"
-#   description = "Subscribes RCS Metrics from Pub/Sub, and inserts into BigQuery"
-#   runtime     = "python311"
-
-#   available_memory_mb          = 128
-#   source_archive_bucket        = google_storage_bucket.source_upload_bucket.name
-#   source_archive_object        = google_storage_bucket_object.archive.name
-#   https_trigger_security_level = "SECURE_ALWAYS"
-#   timeout                      = 60
-#   entry_point                  = "save_to_bq"
-#   ingress_settings             = "ALLOW_INTERNAL_AND_GCLB"
-
-#   environment_variables = {
-#         BQ_DATASET = google_bigquery_table.rcs_metrics_request_count.dataset_id # Replace with your BigQuery dataset
-#         REQUEST_METRIC_TYPE = local.res_request_count_metrics_type
-#         REQUEST_BQ_TABLE   = google_bigquery_table.rcs_metrics_request_count.table_id  # Replace with your BigQuery table
-#         RESPONSE_METRIC_TYPE = local.res_final_response_count_metrics_type
-#         RESPONSE_BQ_TABLE   = google_bigquery_table.rcs_metrics_final_response_count.table_id  # Replace with your BigQuery table
-#   }
-
-#   region = var.region
-#   event_trigger {
-#     event_type = "google.cloud.pubsub.topic.v1.messagePublished"
-#     resource = "projects/${var.project_id}/topics/${google_pubsub_topic.rcs_topic.name}"
-#     failure_policy {
-#       retry = false
-#     }
-#   }
-
-#   depends_on = [
-#     google_storage_bucket.source_upload_bucket,
-#     google_storage_bucket_object.archive
-#   ]
-
-# }
 resource "google_cloudfunctions2_function" "save_rcs_metrics_to_bigquery" {
   name        = "save-rcs-metrics-to-bigquery"
   description = "Subscribes RCS Metrics from Pub/Sub, and inserts into BigQuery"
@@ -94,7 +58,7 @@ resource "google_cloudfunctions2_function" "save_rcs_metrics_to_bigquery" {
     trigger_region = var.region
     event_type = "google.cloud.pubsub.topic.v1.messagePublished"
     pubsub_topic = "projects/${var.project_id}/topics/${google_pubsub_topic.rcs_topic.name}"
-    retry_policy = "RETRY_POLICY_DO_NOT_RETRY"
+    retry_policy = "RETRY_POLICY_RETRY"
   }
 
   depends_on = [

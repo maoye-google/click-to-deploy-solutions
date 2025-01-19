@@ -21,6 +21,7 @@ resource "google_pubsub_subscription" "rcs_metrics_to_rcs_metrics_handler" {
 
   depends_on = [
     google_project_iam_member.token_creator,
+    google_project_iam_member.pubsub_editor,
     google_project_iam_member.cloudrun_invoker,
     google_project_iam_member.cloud_monitoring_writer
   ]

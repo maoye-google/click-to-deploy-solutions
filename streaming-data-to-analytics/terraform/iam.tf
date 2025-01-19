@@ -4,6 +4,13 @@ resource "google_service_account" "ingest_api" {
   create_ignore_already_exists = true
 }
 
+# Grant the Permission to modify pubsub subscriptions, and consumer messages
+resource "google_project_iam_member" "pubsub_editor" {
+  project = var.project_id
+  role    = "roles/pubsub.editor"
+  member  = "serviceAccount:${google_service_account.ingest_api.email}"
+}
+
 resource "google_project_iam_member" "token_creator" {
   project = var.project_id
   role    = "roles/iam.serviceAccountTokenCreator"
@@ -46,13 +53,19 @@ resource "google_project_iam_member" "pubsub_bqMetadata" {
   member  = "serviceAccount:${google_service_account.ingest_api.email}"
 }
 
-# Grant the Permission to modify pubsub subscriptions, and consumer messages
-resource "google_project_iam_member" "pubsub_editor" {
+# Grant the permissions to write to BigQuery
+resource "google_project_iam_member" "pubsub_bqEditor_2" {
   project = var.project_id
-  role    = "roles/pubsub.editor"
-  member  = "serviceAccount:${google_service_account.ingest_api.email}"
-  
-  depends_on = [
-    google_service_account.ingest_api
-  ]
+  role    = "roles/bigquery.dataEditor"
+  member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+  # member  = "serviceAccount:${google_service_account.ingest_api.email}"
 }
+
+# Grant the Permission to get Bigquery metadata
+resource "google_project_iam_member" "pubsub_bqMetadata_2" {
+  project = var.project_id
+  role    = "roles/bigquery.metadataViewer"
+  member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+  # member  = "serviceAccount:${google_service_account.ingest_api.email}"
+}
+

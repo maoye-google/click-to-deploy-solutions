@@ -4,20 +4,21 @@ import os
 from google.cloud import bigquery
 import logging
 import traceback
+import functions_framework
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
-PROJECT_ID = os.getenv("PROJECT_ID") 
-
+@functions_framework.cloud_event
 def save_to_bq(request):
     """
     Triggered from a rcs message on a Pub/Sub topic.
     Inserts the message into BigQuery.
     """
+    PROJECT_ID = os.getenv("PROJECT_ID") 
     client = bigquery.Client(project=PROJECT_ID)
 
     # Get environment variables
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
     dataset_id = os.environ.get('BQ_DATASET')
     rcs_request_count_type = os.environ.get('REQUEST_METRIC_TYPE')
     _rcs_request_count_table_id = os.environ.get('REQUEST_BQ_TABLE')
@@ -32,7 +33,7 @@ def save_to_bq(request):
     logger.debug(f"Finish Cloud Function Initialization")
 
     # Read pub sub data 
-    envelope = request.get_json()
+    envelope = request.get_data()
     if not envelope:
         msg = "no Pub/Sub message received"
         logger.error(f"error: {msg}")
@@ -41,13 +42,14 @@ def save_to_bq(request):
     if not isinstance(envelope, dict) or "message" not in envelope:
         msg = "invalid Pub/Sub message format"
         logger.error(f"error: {msg}")
+        logger.debug(f"received message is : {envelope}")
         return f"Bad Request: {msg}", 400
-
-    pubsub_message = envelope["message"]
 
     # Extract data from the Pub/Sub message
     
     try:
+        pubsub_message = envelope["message"]
+
         message_data = base64.b64decode(
             pubsub_message["data"]
         ).decode() if "data" in pubsub_message else ""
@@ -96,13 +98,13 @@ def save_to_bq(request):
         if errors:
             msg = f"Encountered errors while inserting rows: {errors}"
             logger.error(msg)
-            return msg
+            return msg, 400
         else:
             msg = f"Data inserted into BigQuery Table : {table_id}"
             logger.debug(msg)
-            return msg
+            return msg, 200
         
     except Exception as ex:
         logging.error(ex)
         traceback.print_exc()
-        return None
+        return "Error", 400
