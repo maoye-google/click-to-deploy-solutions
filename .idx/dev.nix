@@ -13,6 +13,7 @@
     pkgs.python311Packages.virtualenv
     # pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
+    pkgs.google-cloud-sdk
   ];
 
   # Sets environment variables in the workspace
