@@ -52,6 +52,7 @@ gcloud services enable cloudbuild.googleapis.com \
     cloudfunctions.googleapis.com \
     iam.googleapis.com \
     run.googleapis.com \
+    eventarc.googleapis.com \
     pubsub.googleapis.com \
     --project $PROJECT_ID
 

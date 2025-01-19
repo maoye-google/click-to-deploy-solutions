@@ -2,6 +2,7 @@
 resource "google_cloud_run_v2_service" "rcs_metrics_handler" {
   name     = local.rcs_metrics_handler_name
   location = var.region
+  deletion_protection = false
 
   template {
     service_account = google_service_account.ingest_api.email

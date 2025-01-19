@@ -15,7 +15,6 @@ locals {
   rcs_metrics_handler_name      = "rcs-metrics-handler"
   res_request_count_metrics_type = "custom.googleapis.com/rcs/sip/request_count"
   res_final_response_count_metrics_type = "custom.googleapis.com/rcs/sip/final_response_count"
-
 }
 
 variable "project_id" {
@@ -58,6 +57,12 @@ variable "rcs_resource_labels" {
 variable "rcs_metrics_saver_cf_zip_name" {
   description = "Zipped Cloud Functions' Source Code File Name"
   default     = "rcs-metrics-saver-src.zip"
+}
+
+variable "source_upload_bucket_name" {
+  description = "The common GCS bucket name for Source and Config file update"
+  type        = string
+  default     = "source-upload-bucket"
 }
 
 variable "dashboard_json_path" {

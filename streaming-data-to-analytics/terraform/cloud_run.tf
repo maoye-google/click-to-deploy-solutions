@@ -2,6 +2,7 @@
 resource "google_cloud_run_v2_service" "ingest_api" {
   name     = local.ingest_api_name
   location = var.region
+  deletion_protection = false
 
   template {
     service_account = google_service_account.ingest_api.email
@@ -37,6 +38,7 @@ resource "google_cloud_run_v2_service" "ingest_api" {
 resource "google_cloud_run_v2_service" "order_handler" {
   name     = local.order_handler_name
   location = var.region
+  deletion_protection = false
 
   template {
     service_account = google_service_account.ingest_api.email

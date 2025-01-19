@@ -39,15 +39,22 @@ steps:
   - '${_RCS_METRICS_HANDLER_IMAGE_NAME}'
   dir: rcs_metrics_handler
 # RCS Metrics Save Logic (Cloud Functions for BQ Ingestion) Steps
-- name: 'gcr.io/cloud-builders/zip' # Zip the Cloud Function code
-  args:
-    - '-r'
-    - 'tmp/${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
-    - '.'
-  dir: 'rcs_metrics_saver' # Directory where your main.py and requirements.txt are
+# - name: "gcr.io/cloud-builders/gsutil" # Use gsutil default zip command
+#   entrypoint: 'zip' 
+#   args:
+#   - '-r'
+#   - '${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
+#   - '.'
+#   dir: 'rcs_metrics_saver' # Use parent folder as working directory
+# - name: "gcr.io/cloud-builders/gsutil"
+#   args:
+#     - 'cp' # Upload the zip file to GCS bucket
+#     - '${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
+#     - 'gs://${_SOURCE_UPLOAD_BUCKET_NAME}/${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
+#   dir: 'rcs_metrics_saver' 
 # Terraform steps
 - id: 'tf init'
-  name: 'hashicorp/terraform:1.0.0'
+  name: 'hashicorp/terraform:1.3.6'
   entrypoint: 'sh'
   args: 
   - '-c'
@@ -57,12 +64,14 @@ steps:
     -backend-config="prefix=streaming-data"
   dir: terraform
 - id: 'tf apply'
-  name: 'hashicorp/terraform:1.0.0'
+  name: 'hashicorp/terraform:1.3.6'
   args: 
   - apply
   - -auto-approve
   dir: terraform
+# General Setting
 substitutions:
+  _SOURCE_UPLOAD_BUCKET_NAME: ${PROJECT_ID}-source-upload-bucket
   _RCS_METRICS_SAVER_CF_ZIP_NAME: rcs-metrics-saver-src.zip
   _INGEST_API_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-ingest-api:${BUILD_ID}
   _ORDER_HANDLER_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-order-handler:${BUILD_ID}
@@ -75,6 +84,7 @@ options:
     - TF_VAR_order_handler_tag=$BUILD_ID
     - TF_VAR_rcs_metrics_handler_tag=$BUILD_ID
     - TF_VAR_rcs_metrics_saver_cf_zip_name=${_RCS_METRICS_SAVER_CF_ZIP_NAME}
+    - TF_VAR_source_upload_bucket_name=${_SOURCE_UPLOAD_BUCKET_NAME}
 tags:
   - terraform
   - streaming-data
