@@ -125,13 +125,7 @@ def publish_rcs_metrics():
 
             publisher.publish(topic_path, 
                               message.encode("utf-8"), 
-                              metric_type=metric_type,
-                              conversation_type=timeseries_data.metric.labels.get("conversation_type",""),
-                              carrier=timeseries_data.metric.labels.get("carrier",""),
-                              sip_method=timeseries_data.metric.labels.get("sip_method",""),
-                              response_code=timeseries_data.metric.labels.get("response_code",""),
-                              direction=timeseries_data.metric.labels.get("direction",""),
-                              value=str(timeseries_data.points[0].value.int64_value)
+                              metric_type=metric_type
                              )
             # print("Step10")
             logger.debug(f"Published RCS metrics of Type ({metric_type})")
