@@ -37,6 +37,7 @@ override.tf.json
 bicycle.jpg
 
 .idx
+.idx/**.*
 .vscode
 
 # Service Account Key

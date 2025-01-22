@@ -1,59 +1,51 @@
 steps:
 # Ingest API Container steps
-- name: 'gcr.io/cloud-builders/docker'
+- id: 'Ingest_API - Build'
+  name: 'gcr.io/cloud-builders/docker'
   args:
     - 'build'
     - '-t'
     - '${_INGEST_API_IMAGE_NAME}'
     - '.'
   dir: ingest_api
-- name: 'gcr.io/cloud-builders/docker'
+- id: 'Ingest_API - Push'
+  name: 'gcr.io/cloud-builders/docker'
   args: 
   - 'push'
   - '${_INGEST_API_IMAGE_NAME}'
   dir: ingest_api
 # Order Handler Container steps
-- name: 'gcr.io/cloud-builders/docker'
+- id: 'Order_Handler - Build'
+  name: 'gcr.io/cloud-builders/docker'
   args:
     - 'build'
     - '-t'
     - '${_ORDER_HANDLER_IMAGE_NAME}'
     - '.'
   dir: order_handler
-- name: 'gcr.io/cloud-builders/docker'
+- id: 'Order_Handler - Push'
+  name: 'gcr.io/cloud-builders/docker'
   args: 
   - 'push'
   - '${_ORDER_HANDLER_IMAGE_NAME}'
   dir: order_handler
 # RCS Metrics Handler Container steps
-- name: 'gcr.io/cloud-builders/docker'
+- id: 'RCS_Metrics_Handler - Build'
+  name: 'gcr.io/cloud-builders/docker'
   args:
     - 'build'
     - '-t'
     - '${_RCS_METRICS_HANDLER_IMAGE_NAME}'
     - '.'
   dir: rcs_metrics_handler
-- name: 'gcr.io/cloud-builders/docker'
+- id: 'RCS_Metrics_Handler - Push'
+  name: 'gcr.io/cloud-builders/docker'
   args: 
   - 'push'
   - '${_RCS_METRICS_HANDLER_IMAGE_NAME}'
   dir: rcs_metrics_handler
-# RCS Metrics Save Logic (Cloud Functions for BQ Ingestion) Steps
-# - name: "gcr.io/cloud-builders/gsutil" # Use gsutil default zip command
-#   entrypoint: 'zip' 
-#   args:
-#   - '-r'
-#   - '${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
-#   - '.'
-#   dir: 'rcs_metrics_saver' # Use parent folder as working directory
-# - name: "gcr.io/cloud-builders/gsutil"
-#   args:
-#     - 'cp' # Upload the zip file to GCS bucket
-#     - '${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
-#     - 'gs://${_SOURCE_UPLOAD_BUCKET_NAME}/${_RCS_METRICS_SAVER_CF_ZIP_NAME}'
-#   dir: 'rcs_metrics_saver' 
 # Terraform steps
-- id: 'tf init'
+- id: 'Terraform Inititalization'
   name: 'hashicorp/terraform:1.3.6'
   entrypoint: 'sh'
   args: 
@@ -63,7 +55,7 @@ steps:
     -backend-config="bucket=$PROJECT_ID-tf-state" \
     -backend-config="prefix=streaming-data"
   dir: terraform
-- id: 'tf apply'
+- id: 'Terraform Apply'
   name: 'hashicorp/terraform:1.3.6'
   args: 
   - apply
