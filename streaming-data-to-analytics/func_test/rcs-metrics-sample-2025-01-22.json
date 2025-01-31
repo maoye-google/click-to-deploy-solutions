@@ -1,0 +1,1362 @@
+[
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:43:36Z",
+            "endTime": "2025-01-16T04:44:35Z"
+          },
+          "value": {
+            "int64Value": "788"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:43:36Z",
+            "endTime": "2025-01-16T04:44:35Z"
+          },
+          "value": {
+            "int64Value": "788"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:43:36Z",
+            "endTime": "2025-01-16T04:44:35Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:44:36Z",
+            "endTime": "2025-01-16T04:45:35Z"
+          },
+          "value": {
+            "int64Value": "784"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:44:36Z",
+            "endTime": "2025-01-16T04:45:35Z"
+          },
+          "value": {
+            "int64Value": "779"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:44:36Z",
+            "endTime": "2025-01-16T04:45:35Z"
+          },
+          "value": {
+            "int64Value": "5"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:45:36Z",
+            "endTime": "2025-01-16T04:46:35Z"
+          },
+          "value": {
+            "int64Value": "810"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:45:36Z",
+            "endTime": "2025-01-16T04:46:35Z"
+          },
+          "value": {
+            "int64Value": "806"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:45:36Z",
+            "endTime": "2025-01-16T04:46:35Z"
+          },
+          "value": {
+            "int64Value": "4"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:46:36Z",
+            "endTime": "2025-01-16T04:47:35Z"
+          },
+          "value": {
+            "int64Value": "786"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:46:36Z",
+            "endTime": "2025-01-16T04:47:35Z"
+          },
+          "value": {
+            "int64Value": "780"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:46:36Z",
+            "endTime": "2025-01-16T04:47:35Z"
+          },
+          "value": {
+            "int64Value": "6"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:47:36Z",
+            "endTime": "2025-01-16T04:48:35Z"
+          },
+          "value": {
+            "int64Value": "796"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:47:36Z",
+            "endTime": "2025-01-16T04:48:35Z"
+          },
+          "value": {
+            "int64Value": "796"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:47:36Z",
+            "endTime": "2025-01-16T04:48:35Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:48:36Z",
+            "endTime": "2025-01-16T04:49:35Z"
+          },
+          "value": {
+            "int64Value": "815"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:48:36Z",
+            "endTime": "2025-01-16T04:49:35Z"
+          },
+          "value": {
+            "int64Value": "813"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:48:36Z",
+            "endTime": "2025-01-16T04:49:35Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:49:36Z",
+            "endTime": "2025-01-16T04:50:35Z"
+          },
+          "value": {
+            "int64Value": "794"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:49:36Z",
+            "endTime": "2025-01-16T04:50:35Z"
+          },
+          "value": {
+            "int64Value": "789"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:49:36Z",
+            "endTime": "2025-01-16T04:50:35Z"
+          },
+          "value": {
+            "int64Value": "5"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:50:36Z",
+            "endTime": "2025-01-16T04:51:35Z"
+          },
+          "value": {
+            "int64Value": "788"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:50:36Z",
+            "endTime": "2025-01-16T04:51:35Z"
+          },
+          "value": {
+            "int64Value": "781"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:50:36Z",
+            "endTime": "2025-01-16T04:51:35Z"
+          },
+          "value": {
+            "int64Value": "7"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:51:36Z",
+            "endTime": "2025-01-16T04:52:35Z"
+          },
+          "value": {
+            "int64Value": "817"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:51:36Z",
+            "endTime": "2025-01-16T04:52:35Z"
+          },
+          "value": {
+            "int64Value": "810"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:51:36Z",
+            "endTime": "2025-01-16T04:52:35Z"
+          },
+          "value": {
+            "int64Value": "7"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:52:36Z",
+            "endTime": "2025-01-16T04:53:35Z"
+          },
+          "value": {
+            "int64Value": "817"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:52:36Z",
+            "endTime": "2025-01-16T04:53:35Z"
+          },
+          "value": {
+            "int64Value": "809"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:52:36Z",
+            "endTime": "2025-01-16T04:53:35Z"
+          },
+          "value": {
+            "int64Value": "8"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:53:36Z",
+            "endTime": "2025-01-16T04:54:35Z"
+          },
+          "value": {
+            "int64Value": "819"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:53:36Z",
+            "endTime": "2025-01-16T04:54:35Z"
+          },
+          "value": {
+            "int64Value": "812"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:53:36Z",
+            "endTime": "2025-01-16T04:54:35Z"
+          },
+          "value": {
+            "int64Value": "7"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:54:36Z",
+            "endTime": "2025-01-16T04:55:35Z"
+          },
+          "value": {
+            "int64Value": "811"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:54:36Z",
+            "endTime": "2025-01-16T04:55:35Z"
+          },
+          "value": {
+            "int64Value": "810"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:54:36Z",
+            "endTime": "2025-01-16T04:55:35Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:55:36Z",
+            "endTime": "2025-01-16T04:56:35Z"
+          },
+          "value": {
+            "int64Value": "794"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:55:36Z",
+            "endTime": "2025-01-16T04:56:35Z"
+          },
+          "value": {
+            "int64Value": "793"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:55:36Z",
+            "endTime": "2025-01-16T04:56:35Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:56:36Z",
+            "endTime": "2025-01-16T04:57:35Z"
+          },
+          "value": {
+            "int64Value": "814"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:56:36Z",
+            "endTime": "2025-01-16T04:57:35Z"
+          },
+          "value": {
+            "int64Value": "810"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:56:36Z",
+            "endTime": "2025-01-16T04:57:35Z"
+          },
+          "value": {
+            "int64Value": "4"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:57:36Z",
+            "endTime": "2025-01-16T04:58:35Z"
+          },
+          "value": {
+            "int64Value": "813"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:57:36Z",
+            "endTime": "2025-01-16T04:58:35Z"
+          },
+          "value": {
+            "int64Value": "805"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:57:36Z",
+            "endTime": "2025-01-16T04:58:35Z"
+          },
+          "value": {
+            "int64Value": "8"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:58:36Z",
+            "endTime": "2025-01-16T04:59:35Z"
+          },
+          "value": {
+            "int64Value": "794"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:58:36Z",
+            "endTime": "2025-01-16T04:59:35Z"
+          },
+          "value": {
+            "int64Value": "785"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:58:36Z",
+            "endTime": "2025-01-16T04:59:35Z"
+          },
+          "value": {
+            "int64Value": "9"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:59:36Z",
+            "endTime": "2025-01-16T05:00:35Z"
+          },
+          "value": {
+            "int64Value": "799"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:59:36Z",
+            "endTime": "2025-01-16T05:00:35Z"
+          },
+          "value": {
+            "int64Value": "790"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T04:59:36Z",
+            "endTime": "2025-01-16T05:00:35Z"
+          },
+          "value": {
+            "int64Value": "9"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:00:36Z",
+            "endTime": "2025-01-16T05:01:35Z"
+          },
+          "value": {
+            "int64Value": "783"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:00:36Z",
+            "endTime": "2025-01-16T05:01:35Z"
+          },
+          "value": {
+            "int64Value": "782"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:00:36Z",
+            "endTime": "2025-01-16T05:01:35Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:01:36Z",
+            "endTime": "2025-01-16T05:02:35Z"
+          },
+          "value": {
+            "int64Value": "816"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:01:36Z",
+            "endTime": "2025-01-16T05:02:35Z"
+          },
+          "value": {
+            "int64Value": "808"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:01:36Z",
+            "endTime": "2025-01-16T05:02:35Z"
+          },
+          "value": {
+            "int64Value": "8"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/request_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:02:36Z",
+            "endTime": "2025-01-16T05:03:35Z"
+          },
+          "value": {
+            "int64Value": "811"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "200",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:02:36Z",
+            "endTime": "2025-01-16T05:03:35Z"
+          },
+          "value": {
+            "int64Value": "804"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "conversation_type": "1TO1",
+          "carrier": "COMPANY_NAME",
+          "sip_method": "INVITE",
+          "response_code": "404",
+          "direction": "MO"
+        },
+        "type": "custom.googleapis.com/rcs/sip/final_response_count"
+      },
+      "points": [
+        {
+          "interval": {
+            "startTime": "2025-01-16T05:02:36Z",
+            "endTime": "2025-01-16T05:03:35Z"
+          },
+          "value": {
+            "int64Value": "7"
+          }
+        }
+      ]
+    }
+  ]
