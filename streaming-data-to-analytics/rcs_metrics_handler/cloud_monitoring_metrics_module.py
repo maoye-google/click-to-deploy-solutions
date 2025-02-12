@@ -117,7 +117,8 @@ class GoogleCloudMonitoringUtil:
         self.client = monitoring_v3.MetricServiceClient()
         self.project_name = f"projects/{project_id}"
         self.metric_already_exist = False
-        self.metric_type = f"custom.googleapis.com/{metric_type}"
+        self.metric_type = metric_type
+        # self.metric_type = f"custom.googleapis.com/{metric_type}"
         self.labels = labels
         self.metric_descriptor = self.create_metric_descriptor()
 
@@ -144,11 +145,11 @@ class GoogleCloudMonitoringUtil:
             for key, label_value in metric_labels.items():
                 single_time_series.metric.labels[key] = label_value
 
+        logger.debug(f"Ready to write 1 unit time series data.")
         request = monitoring_v3.CreateTimeSeriesRequest(
             name=self.project_name,
             time_series=[single_time_series]
         )
-
         self.client.create_time_series(request=request)
         logger.debug(f"Successfully wrote 1 unit time series data.")
 
