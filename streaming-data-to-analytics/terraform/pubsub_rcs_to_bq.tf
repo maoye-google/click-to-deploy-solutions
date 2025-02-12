@@ -3,13 +3,12 @@ resource "google_pubsub_topic" "rcs_topic" {
   labels = local.resource_labels
 }
 
-# Forward RCS Time Series Metrics (Request Count) to BQ via Pub/Sub
+# Forward All RCS Metrics (Raw Data) to BQ via Pub/Sub
 resource "google_pubsub_subscription" "rcs_metrics_to_bq_sub" {
   name   = "rcs-metrics-to-bigquery"
   topic  = google_pubsub_topic.rcs_topic.name
   labels = local.resource_labels
-  filter = "attributes.metric_type=\"custom.googleapis.com/rcs/sip/request_count\" OR attributes.metric_type=\"custom.googleapis.com/rcs/sip/final_response_count\""
-
+  
   bigquery_config {
     table          = "${google_bigquery_table.raw_rcs_metrics.project}.${google_bigquery_table.raw_rcs_metrics.dataset_id}.${google_bigquery_table.raw_rcs_metrics.table_id}"
     write_metadata = true

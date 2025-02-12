@@ -20,15 +20,7 @@ def save_to_bq(request):
     logger = logging.getLogger(__name__)
 
     dataset_id = os.environ.get('BQ_DATASET')
-    rcs_request_count_type = os.environ.get('REQUEST_METRIC_TYPE')
-    _rcs_request_count_table_id = os.environ.get('REQUEST_BQ_TABLE')
-    rcs_request_count_table_ref = client.dataset(dataset_id).table(_rcs_request_count_table_id)
-    rcs_request_count_table = client.get_table(rcs_request_count_table_ref)
-
-    rcs_final_response_count_type = os.environ.get('RESPONSE_METRIC_TYPE')
-    _rcs_final_response_count_table_id = os.environ.get('RESPONSE_BQ_TABLE')
-    _rcs_final_response_count_table_ref = client.dataset(dataset_id).table(_rcs_final_response_count_table_id)
-    rcs_final_response_count_table = client.get_table(_rcs_final_response_count_table_ref)
+    table_id = os.environ.get('BQ_TABLE')
 
     logger.debug(f"Finish Cloud Function Initialization")
 
@@ -72,6 +64,7 @@ def save_to_bq(request):
         # Prepare the row to be inserted
         row_to_insert = [
             {
+                "metric_type" : metric_type,
                 "conversation_type" : conversation_type,
                 "carrier" : carrier,
                 "sip_method" : sip_method,
@@ -85,16 +78,8 @@ def save_to_bq(request):
 
         # Insert data into BigQuery
     
-        errors = None
-        table_id = ""
-
-        if metric_type == rcs_request_count_type:
-            errors = client.insert_rows_json(rcs_request_count_table, row_to_insert)
-            table_id = _rcs_request_count_table_id
-        elif metric_type == rcs_final_response_count_type:   
-            errors = client.insert_rows_json(rcs_final_response_count_table, row_to_insert)
-            table_id = _rcs_final_response_count_table_id
-
+        errors = client.insert_rows_json(rcs_request_count_table, row_to_insert)
+        
         if errors:
             msg = f"Encountered errors while inserting rows: {errors}"
             logger.error(msg)

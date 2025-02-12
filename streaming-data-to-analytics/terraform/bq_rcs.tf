@@ -52,10 +52,10 @@ resource "google_bigquery_table" "raw_rcs_metrics" {
 
 # ######################################################################
 
-resource "google_bigquery_table" "rcs_metrics_request_count" {
+resource "google_bigquery_table" "rcs_metrics_all" {
   dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
-  table_id            = "rcs_metrics_request_count"
-  description         = "Store Received All RCS Request Metrics"
+  table_id            = "rcs_metrics_all"
+  description         = "Store All Received RCS Metrics"
   deletion_protection = false
   labels              = local.resource_labels
 
@@ -66,6 +66,11 @@ resource "google_bigquery_table" "rcs_metrics_request_count" {
 
   schema = <<EOF
   [
+    {
+      "name": "metric_type",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
     {
       "name": "conversation_type",
       "type": "STRING",
