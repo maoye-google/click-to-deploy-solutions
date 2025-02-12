@@ -39,9 +39,9 @@ resource "google_cloudfunctions2_function" "save_rcs_metrics_to_bigquery" {
   }
 
   service_config {
-    max_instance_count  = 2
+    max_instance_count  = 10
     available_memory    = "256M"
-    timeout_seconds     = 60
+    timeout_seconds     = 10
     environment_variables = {
         BQ_DATASET = google_bigquery_table.rcs_metrics_all.dataset_id # Replace with your BigQuery dataset
         BQ_TABLE   = google_bigquery_table.rcs_metrics_all.table_id  # Replace with your BigQuery table
