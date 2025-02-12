@@ -32,7 +32,7 @@ def get_or_create_new_metrics_util(metrics_type=None):
     if (metrics_type is None):
         return None
     if (metrics_type not in rcs_metrics_utils):
-        rcs_metrics_utils.metrics_type = GoogleCloudMonitoringUtil(PROJECT_ID, metrics_type,rcs_metrics_labels)    
+        rcs_metrics_utils[metrics_type] = GoogleCloudMonitoringUtil(PROJECT_ID, metrics_type,rcs_metrics_labels)    
     return rcs_metrics_utils.get(metrics_type)
 
 def create_timeseries_request_modal(ts_data=None):
