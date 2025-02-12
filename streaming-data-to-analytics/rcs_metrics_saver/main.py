@@ -21,6 +21,8 @@ def save_to_bq(request):
 
     dataset_id = os.environ.get('BQ_DATASET')
     table_id = os.environ.get('BQ_TABLE')
+
+    logger.debug(f"table_id is {table_id}")
     _rcs_metrics_all_table_ref = client.dataset(dataset_id).table(table_id)
     rcs_metrics_all_table = client.get_table(_rcs_metrics_all_table_ref)
 
