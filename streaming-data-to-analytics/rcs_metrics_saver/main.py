@@ -21,6 +21,8 @@ def save_to_bq(request):
 
     dataset_id = os.environ.get('BQ_DATASET')
     table_id = os.environ.get('BQ_TABLE')
+    _rcs_metrics_all_table_ref = client.dataset(dataset_id).table(table_id)
+    rcs_metrics_all_table = client.get_table(_rcs_metrics_all_table_ref)
 
     logger.debug(f"Finish Cloud Function Initialization")
 
@@ -78,7 +80,7 @@ def save_to_bq(request):
 
         # Insert data into BigQuery
     
-        errors = client.insert_rows_json(rcs_request_count_table, row_to_insert)
+        errors = client.insert_rows_json(rcs_metrics_all_table, row_to_insert)
         
         if errors:
             msg = f"Encountered errors while inserting rows: {errors}"
