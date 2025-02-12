@@ -5,7 +5,7 @@ resource "google_pubsub_subscription" "rcs_metrics_to_rcs_metrics_handler" {
   name   = "rcs-metrics-to-rcs-metrics-handler"
   topic  = google_pubsub_topic.rcs_topic.name
   labels = local.resource_labels
-  filter = "attributes.metric_type=\"custom.googleapis.com/rcs/sip/request_count\" OR attributes.metric_type=\"custom.googleapis.com/rcs/sip/final_response_count\""
+  # filter = "attributes.metric_type=\"custom.googleapis.com/rcs/sip/request_count\" OR attributes.metric_type=\"custom.googleapis.com/rcs/sip/final_response_count\""
 
   push_config {
     push_endpoint = google_cloud_run_v2_service.rcs_metrics_handler.uri
