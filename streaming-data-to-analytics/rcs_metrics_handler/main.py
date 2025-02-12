@@ -142,7 +142,12 @@ def log_metrics_value(data_list = {}):
     # Update Cloud Monitoring API to ingest the metrics
     # For this option, async task CANNOT be used. Otherwise you will receive error from the platform
 
-    send_metrics_to_cloud_monitoring(data_list)
+    # since cloud monitoring native metrics will be aggregated automatically,
+    # we will not use this feature this time
+    # instead, we print it to log, and use log metrics
+    # and save the metrics in BQ for detail analysis
+    
+    # send_metrics_to_cloud_monitoring(data_list)
 
     # Option-2
     # Send the Metrics to external Monitoring Tool like NewRelic or DataDog
