@@ -166,13 +166,15 @@ def main():
     # --- Option 3: Application Default Credentials (ADC) ---
     # If you want to use ADC, comment out the above two options.
 
+    test_file_name = os.environ.get("TEST_FILE_NAME", "./sample_payload.json")
+
     if not service_account_path:
         print("Warning: Service account key path not set. Attempting to use ADC.")
 
     # Option-2 : Load data from JSON payload file
 
     relative_path = "/rcs-metrics"
-    data = load_timeseries_payload_from_file("./sample_payload.json")
+    data = load_timeseries_payload_from_file(test_file_name)
 
     request_payload = monitoring_v3.CreateTimeSeriesRequest(
         name='PROJECT_ID', time_series=data)

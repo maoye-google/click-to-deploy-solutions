@@ -18,6 +18,7 @@ set -e
 
 export SA_NAME="external-cloud-run-user@streaming-events-demo-3-447707.iam.gserviceaccount.com"
 export GOOGLE_APPLICATION_CREDENTIALS="./external_client_key.json"
+export TEST_FILE_NAME="./sample_payload.json"
 # export CLOUD_RUN_ENDPOINT="https://ingest-api-978187934406.us-east1.run.app"
 export CLOUD_RUN_ENDPOINT="http://127.0.0.1:8080"
 # export CLOUD_RUN_ENDPOINT=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')

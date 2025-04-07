@@ -13,10 +13,6 @@ resource "google_cloud_run_v2_service" "ingest_api" {
         value = var.project_id
       }
       env {
-        name  = "ORDER_TOPIC_ID"
-        value = google_pubsub_topic.order_topic.name
-      }
-      env {
         name  = "RCS_TOPIC_ID"
         value = google_pubsub_topic.rcs_topic.name
       }
