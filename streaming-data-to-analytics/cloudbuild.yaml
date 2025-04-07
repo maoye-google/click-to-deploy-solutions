@@ -14,21 +14,6 @@ steps:
   - 'push'
   - '${_INGEST_API_IMAGE_NAME}'
   dir: ingest_api
-# Order Handler Container steps
-- id: 'Order_Handler - Build'
-  name: 'gcr.io/cloud-builders/docker'
-  args:
-    - 'build'
-    - '-t'
-    - '${_ORDER_HANDLER_IMAGE_NAME}'
-    - '.'
-  dir: order_handler
-- id: 'Order_Handler - Push'
-  name: 'gcr.io/cloud-builders/docker'
-  args: 
-  - 'push'
-  - '${_ORDER_HANDLER_IMAGE_NAME}'
-  dir: order_handler
 # RCS Metrics Handler Container steps
 - id: 'RCS_Metrics_Handler - Build'
   name: 'gcr.io/cloud-builders/docker'
@@ -66,14 +51,12 @@ substitutions:
   _SOURCE_UPLOAD_BUCKET_NAME: ${PROJECT_ID}-source-upload-bucket
   _RCS_METRICS_SAVER_CF_ZIP_NAME: rcs-metrics-saver-src.zip
   _INGEST_API_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-ingest-api:${BUILD_ID}
-  _ORDER_HANDLER_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-order-handler:${BUILD_ID}
   _RCS_METRICS_HANDLER_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/gcp-rcs-metrics-handler:${BUILD_ID}
 options:
   dynamic_substitutions: true
   env:
     - TF_VAR_project_id=$PROJECT_ID
     - TF_VAR_ingest_api_tag=$BUILD_ID
-    - TF_VAR_order_handler_tag=$BUILD_ID
     - TF_VAR_rcs_metrics_handler_tag=$BUILD_ID
     - TF_VAR_rcs_metrics_saver_cf_zip_name=${_RCS_METRICS_SAVER_CF_ZIP_NAME}
     - TF_VAR_source_upload_bucket_name=${_SOURCE_UPLOAD_BUCKET_NAME}
@@ -83,6 +66,5 @@ tags:
   - plan-apply
 images:
   - ${_INGEST_API_IMAGE_NAME}    
-  - ${_ORDER_HANDLER_IMAGE_NAME} 
   - ${_RCS_METRICS_HANDLER_IMAGE_NAME} 
 timeout: 3600s
