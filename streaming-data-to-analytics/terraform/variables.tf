@@ -9,9 +9,7 @@ locals {
 
   ingest_api_name           = "ingest-api"
   ingest_api_container    = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-ingest-api:${var.ingest_api_tag}"
-  order_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-order-handler:${var.order_handler_tag}"
   rcs_metrics_handler_container = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/gcp-rcs-metrics-handler:${var.rcs_metrics_handler_tag}"
-  order_handler_name            = "order-handler"
   rcs_metrics_handler_name      = "rcs-metrics-handler"
   res_request_count_metrics_type = "custom.googleapis.com/rcs/sip/request_count"
   res_final_response_count_metrics_type = "custom.googleapis.com/rcs/sip/final_response_count"
@@ -29,11 +27,6 @@ variable "region" {
 
 variable "ingest_api_tag" {
   description = "Ingest API container tag"
-  default     = "latest"
-}
-
-variable "order_handler_tag" {
-  description = "Order Handler container tag"
   default     = "latest"
 }
 

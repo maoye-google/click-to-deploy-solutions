@@ -52,10 +52,10 @@ resource "google_bigquery_table" "raw_rcs_metrics" {
 
 # ######################################################################
 
-resource "google_bigquery_table" "rcs_metrics_request_count" {
+resource "google_bigquery_table" "rcs_metrics_all" {
   dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
-  table_id            = "rcs_metrics_request_count"
-  description         = "Store Received All RCS Request Metrics"
+  table_id            = "rcs_metrics_all"
+  description         = "Store All Received RCS Metrics"
   deletion_protection = false
   labels              = local.resource_labels
 
@@ -67,66 +67,10 @@ resource "google_bigquery_table" "rcs_metrics_request_count" {
   schema = <<EOF
   [
     {
-      "name": "conversation_type",
+      "name": "metric_type",
       "type": "STRING",
       "mode": "NULLABLE"
     },
-    {
-      "name": "carrier",
-      "type": "STRING",
-      "mode": "NULLABLE"
-    },
-    {
-      "name": "sip_method",
-      "type": "STRING",
-      "mode": "NULLABLE"
-    },
-    {
-      "name": "response_code",
-      "type": "STRING",
-      "mode": "NULLABLE"
-    },
-    {
-      "name": "direction",
-      "type": "STRING",
-      "mode": "NULLABLE"
-    },
-    {
-      "name": "start_time",
-      "type": "TIMESTAMP",
-      "mode": "NULLABLE"
-    },
-    {
-      "name": "end_time",
-      "type": "TIMESTAMP",
-      "mode": "NULLABLE"
-    },
-    {
-      "name": "value",
-      "type": "INTEGER",
-      "mode": "NULLABLE"
-    }
-  ]
-  EOF
-
-}
-
-
-
-resource "google_bigquery_table" "rcs_metrics_final_response_count" {
-  dataset_id          = google_bigquery_dataset.rcs_metrics.dataset_id
-  table_id            = "rcs_metrics_final_response_count"
-  description         = "Store Received All RCS Final Response Metrics"
-  deletion_protection = false
-  labels              = local.resource_labels
-
-  time_partitioning {
-    type  = "DAY"
-    field = "start_time"
-  }
-
-  schema = <<EOF
-  [
     {
       "name": "conversation_type",
       "type": "STRING",

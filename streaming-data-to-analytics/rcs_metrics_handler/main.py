@@ -26,8 +26,14 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 rcs_metrics_labels = ["conversation_type","carrier","sip_method","response_code","direction"]
-rcs_request_count_metrics_util = GoogleCloudMonitoringUtil(PROJECT_ID, "rcs/sip/request_count",rcs_metrics_labels)
-rcs_final_response_count_metrics_util = GoogleCloudMonitoringUtil(PROJECT_ID, "rcs/sip/final_response_count",rcs_metrics_labels)
+
+rcs_metrics_utils = {}
+def get_or_create_new_metrics_util(metrics_type=None):
+    if (metrics_type is None):
+        return None
+    if (metrics_type not in rcs_metrics_utils):
+        rcs_metrics_utils[metrics_type] = GoogleCloudMonitoringUtil(PROJECT_ID, metrics_type,rcs_metrics_labels)    
+    return rcs_metrics_utils.get(metrics_type)
 
 def create_timeseries_request_modal(ts_data=None):
     if (ts_data is None):
@@ -109,13 +115,12 @@ def send_metrics_to_cloud_monitoring(data_list = {}):
         }
         metric_type = data.get("metric_type")
         logger.debug(f"Write {metric_type} metric data")
-        if metric_type == "rcs_request_count":
-            rcs_request_count_metrics_util.write_time_series_data(start_time, end_time, value, labels)
-        elif metric_type == "rcs_final_response_count":
-            rcs_final_response_count_metrics_util.write_time_series_data(start_time, end_time, value, labels)
-
-        msg = f"Finished sending metrics to Cloud Monitoring"
-        logger.info(msg)
+        if ("custom.googleapis.com/rcs/" in metric_type):
+            rcs_metrics_util = get_or_create_new_metrics_util(metric_type)
+            rcs_metrics_util.write_time_series_data(start_time, end_time, value, labels)
+            logger.info(f"Finished sending metrics to Cloud Monitoring, type = {metric_type}")
+        else:
+            logger.debug(f"Ignore unknown metrics type {metric_type} for rcs_metrics_handler")
         
     # print('Fishin running send_metrics_to_stdio !')
     logger.debug(f"Fishin running send_metrics_to_stdio !")
@@ -137,7 +142,12 @@ def log_metrics_value(data_list = {}):
     # Update Cloud Monitoring API to ingest the metrics
     # For this option, async task CANNOT be used. Otherwise you will receive error from the platform
 
-    send_metrics_to_cloud_monitoring(data_list)
+    # since cloud monitoring native metrics will be aggregated automatically,
+    # we will not use this feature this time
+    # instead, we print it to log, and use log metrics
+    # and save the metrics in BQ for detail analysis
+    
+    # send_metrics_to_cloud_monitoring(data_list)
 
     # Option-2
     # Send the Metrics to external Monitoring Tool like NewRelic or DataDog

@@ -39,15 +39,12 @@ resource "google_cloudfunctions2_function" "save_rcs_metrics_to_bigquery" {
   }
 
   service_config {
-    max_instance_count  = 2
+    max_instance_count  = 10
     available_memory    = "256M"
-    timeout_seconds     = 60
+    timeout_seconds     = 10
     environment_variables = {
-        BQ_DATASET = google_bigquery_table.rcs_metrics_request_count.dataset_id # Replace with your BigQuery dataset
-        REQUEST_METRIC_TYPE = local.res_request_count_metrics_type
-        REQUEST_BQ_TABLE   = google_bigquery_table.rcs_metrics_request_count.table_id  # Replace with your BigQuery table
-        RESPONSE_METRIC_TYPE = local.res_final_response_count_metrics_type
-        RESPONSE_BQ_TABLE   = google_bigquery_table.rcs_metrics_final_response_count.table_id  # Replace with your BigQuery table
+        BQ_DATASET = google_bigquery_table.rcs_metrics_all.dataset_id # Replace with your BigQuery dataset
+        BQ_TABLE   = google_bigquery_table.rcs_metrics_all.table_id  # Replace with your BigQuery table
     }
     ingress_settings = "ALLOW_INTERNAL_AND_GCLB"
     all_traffic_on_latest_revision = true
