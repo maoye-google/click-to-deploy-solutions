@@ -1,0 +1,40 @@
+[
+  {
+    "metric": {
+      "labels": {
+        "client_vendor": "Goog"
+      },
+      "type": "custom.googleapis.com/rcs/provisioning/attempt_count"
+    },
+    "points": [
+      {
+        "interval": {
+          "startTime": "2025-07-22T03:50:00.558Z",
+          "endTime": "2025-07-22T03:51:00.558Z"
+        },
+        "value": {
+          "int64Value": "8"
+        }
+      }
+    ]
+  },
+  {
+    "metric": {
+      "labels": {
+        "client_vendor": "Goog"
+      },
+      "type": "custom.googleapis.com/rcs/provisioning/success_count"
+    },
+    "points": [
+      {
+        "interval": {
+          "startTime": "2025-07-22T03:50:00.558Z",
+          "endTime": "2025-07-22T03:51:00.558Z"
+        },
+        "value": {
+          "int64Value": "9"
+        }
+      }
+    ]
+  }
+]
