@@ -36,7 +36,7 @@ steps:
   args: 
   - '-c'
   - | 
-    terraform init \
+    terraform init -reconfigure \
     -backend-config="bucket=$PROJECT_ID-tf-state" \
     -backend-config="prefix=streaming-data"
   dir: terraform
@@ -45,6 +45,8 @@ steps:
   args: 
   - apply
   - -auto-approve
+  - -var-file=terraform.tfvars
+  - -var=project_id=$PROJECT_ID
   dir: terraform
 # General Setting
 substitutions:

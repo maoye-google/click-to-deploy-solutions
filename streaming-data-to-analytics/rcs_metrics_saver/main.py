@@ -59,10 +59,10 @@ def save_to_bq(request):
         sip_method=metrics_labels.get("sip_method","")
         response_code=metrics_labels.get("response_code","")
         direction=metrics_labels.get("direction","")
+        client_vendor=metrics_labels.get("client_vendor","DUMMY")
         start_time= message_data["points"][0]["interval"]["startTime"]
         end_time= message_data["points"][0]["interval"]["endTime"]
         value= message_data["points"][0]["value"]["int64Value"]
-
         logger.debug(f"Finish Parsing the received message = {message_data}")
         
         # Prepare the row to be inserted
@@ -71,6 +71,7 @@ def save_to_bq(request):
                 "metric_type" : metric_type,
                 "conversation_type" : conversation_type,
                 "carrier" : carrier,
+                "client_vendor": client_vendor,
                 "sip_method" : sip_method,
                 "response_code" : response_code,
                 "direction" : direction,

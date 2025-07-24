@@ -23,7 +23,7 @@ resource "google_storage_bucket_object" "archive" {
 }
 
 resource "google_cloudfunctions2_function" "save_rcs_metrics_to_bigquery" {
-  name        = "save-rcs-metrics-to-bigquery"
+  name        = "save-rcs-metrics-to-bigquery-${google_storage_bucket_object.archive.generation}"
   description = "Subscribes RCS Metrics from Pub/Sub, and inserts into BigQuery"
   location      = var.region # Choose your desired region
 

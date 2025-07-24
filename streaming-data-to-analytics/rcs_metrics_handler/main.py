@@ -25,7 +25,7 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-rcs_metrics_labels = ["conversation_type","carrier","sip_method","response_code","direction"]
+rcs_metrics_labels = ["conversation_type","carrier","sip_method","response_code","direction", "client_vendor"]
 
 rcs_metrics_utils = {}
 def get_or_create_new_metrics_util(metrics_type=None):
@@ -112,6 +112,7 @@ def send_metrics_to_cloud_monitoring(data_list = {}):
             "sip_method" : data.get("sip_method"),
             "response_code" : data.get("response_code"),
             "direction" : data.get("direction"),
+            "client_vendor" : data.get("client_vendor"),
         }
         metric_type = data.get("metric_type")
         logger.debug(f"Write {metric_type} metric data")
@@ -219,6 +220,7 @@ def process_pubsub_message():
         sip_method=metrics_labels.get("sip_method","")
         response_code=metrics_labels.get("response_code","")
         direction=metrics_labels.get("direction","")
+        client_vendor=metrics_labels.get("client_vendor","")
         start_time= request_data["points"][0]["interval"]["startTime"]
         end_time= request_data["points"][0]["interval"]["endTime"]
         value= request_data["points"][0]["value"]["int64Value"]
@@ -232,6 +234,7 @@ def process_pubsub_message():
             "sip_method" : sip_method,
             "response_code" : response_code,
             "direction" : direction,
+            "client_vendor" : client_vendor,
             "start_time" : start_time,
             "end_time" : end_time,
             "value" : value

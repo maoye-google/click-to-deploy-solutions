@@ -110,6 +110,11 @@ resource "google_bigquery_table" "rcs_metrics_all" {
       "name": "value",
       "type": "INTEGER",
       "mode": "NULLABLE"
+    },
+    {
+      "name": "client_vendor",
+      "type": "STRING",
+      "mode": "NULLABLE"
     }
   ]
   EOF
