@@ -23,4 +23,4 @@ export TEST_FILE_NAME="./rcs-metrics-sample-2025-04-07.json"
 # export CLOUD_RUN_ENDPOINT="http://127.0.0.1:8080"
 export CLOUD_RUN_ENDPOINT=$(gcloud run services describe ingest-api --region=us-east1 --format='value(status.url)')
 
-python main_rcs.py
+python3 main_rcs.py

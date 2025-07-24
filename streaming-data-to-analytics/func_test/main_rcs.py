@@ -20,18 +20,7 @@ from google.protobuf.json_format import MessageToDict, MessageToJson
 
 logger = logging.getLogger(__name__)
 
-def serialize_timeseries(request_payload = None):
-    try:
-        # request_proto = json_format.Parse(
-        #     json_string.decode('utf-8'), monitoring_v3.CreateTimeSeriesRequest()
-        # )
 
-        str_ret=MessageToDict(request_payload._pb)
-        print("CreateTimeSeriesRequest serialized successfully")
-        return str_ret
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error Serializing CreateTimeSeriesRequest to String : {e}")
 
 def create_timeseries_request_modal(ts_data=None):
     if (ts_data is None):
@@ -174,18 +163,15 @@ def main():
     # Option-2 : Load data from JSON payload file
 
     relative_path = "/rcs-metrics"
-    data = load_timeseries_payload_from_file(test_file_name)
+    time_series_list = load_timeseries_payload_from_file(test_file_name)
 
-    request_payload = monitoring_v3.CreateTimeSeriesRequest(
-        name='PROJECT_ID', time_series=data)
-    
-    json = serialize_timeseries(request_payload)
+    json_data = [MessageToDict(ts._pb) for ts in time_series_list]
 
-    response = post_to_cloud_run(
+    post_to_cloud_run(
             cloud_run_url,
             relative_path,
             service_account_path,
-            data=json
+            data=json_data
         )
 
 

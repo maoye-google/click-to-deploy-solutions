@@ -92,21 +92,17 @@ def extract_time_series(json_list=None):
 @app.route("/rcs-metrics", methods=['POST'])
 def publish_rcs_metrics():
     """
-    Receives a POST request with a JSON payload representing a CreateTimeSeriesRequest
+    Receives a POST request with a JSON payload representing a list of TimeSeries objects
     and deserializes it into a proto object.
     """
     try:
         # print("-1")
         request_data = request.get_json()
         # print(request_data)
-        t=request_data["timeSeries"]
+        t=request_data
         # print("-2")
         time_series_list = extract_time_series(t)
         # print("-3")
-        # placeholder = monitoring_v3.CreateTimeSeriesRequest(
-        #     name=request_data["name"],
-        #     time_series=time_series_list
-        # )
         # print("-4")
         # print(MessageToDict(placeholder._pb))
 
