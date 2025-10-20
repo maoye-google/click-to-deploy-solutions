@@ -89,15 +89,36 @@ def extract_time_series(json_list=None):
 
     return time_series_list
 
+def log_raw_json(request):
+    # Get the Python dictionary
+    request_data = request.get_json(silent=True) 
+
+    if request_data:
+        # Format the Python dict into a pretty-printed string
+        # indent=4 is a common choice for readability
+        formatted_json = json.dumps(request_data, indent=4)
+        
+        # Log the formatted string. Adding a newline at the start
+        # makes the log entry much cleaner.
+        logger.debug(f"Received JSON:\n{formatted_json}")
+    else:
+        logger.warning("Request was not valid JSON or content-type was missing.")
+        logger.debug(f"Received raw data: {request.data.decode('utf-8')}")
+
+
 @app.route("/rcs-metrics", methods=['POST'])
 def publish_rcs_metrics():
     """
     Receives a POST request with a JSON payload representing a CreateTimeSeriesRequest
     and deserializes it into a proto object.
     """
+    # Print out all received RAW JSON
+    log_raw_json(request)
+
     try:
         # print("-1")
         request_data = request.get_json()
+
         # print(request_data)
         t=request_data["timeSeries"]
         # print("-2")
@@ -143,32 +164,6 @@ def publish_rcs_metrics():
 @app.route("/", methods=['GET'], endpoint="hello")
 def hello():
     return 'hello'
-
-@app.route("/", methods=['POST'])
-def publish_order():
-    try:
-        # Request validation
-        args = request.args
-        entity = args.get("entity")
-        if not entity:
-            entity = "unknown-event"
-
-        # Get the request data
-        data = request.get_data()
-        
-        # TO-DO - If you need to validate the request, add your code here
-
-        # Pub/sub publisher
-        publisher = pubsub_v1.PublisherClient()
-        topic_path = publisher.topic_path(PROJECT_ID, ORDER_TOPIC_ID)
-        
-        # Publish the message to Pub/sub
-        publisher.publish(topic_path, data, entity=entity)
-    except Exception as ex:
-        logger.error(ex)
-        return 'error:{}'.format(ex), http.HTTPStatus.INTERNAL_SERVER_ERROR
-
-    return 'success'
 
 
 if __name__ == "__main__":
